@@ -1,4 +1,6 @@
+import 'react-native-gesture-handler';
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { 
   StyleSheet, 
   Text, 
@@ -9,19 +11,21 @@ import {
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <View style={styles.logocontainer}>
-        <Image source={require('./assets/logo.png')} style={styles.logo} />
+    <NavigationContainer>
+      <View style={styles.container}>
+        <View style={styles.logocontainer}>
+          <Image source={require('./assets/logo.png')} style={styles.logo} />
+        </View>
+        <View style={styles.buttoncontainer}>
+          <TouchableOpacity style={styles.btnsignup}>
+            <Text style={styles.btnsignuptext}>SIGN UP</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnlogin}>
+            <Text style={styles.btnlogintext}>LOGIN</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.buttoncontainer}>
-        <TouchableOpacity style={styles.btnsignup}>
-          <Text style={styles.btnsignuptext}>SIGN UP</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnlogin}>
-          <Text style={styles.btnlogintext}>LOGIN</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      </NavigationContainer>
   );
 }
 
