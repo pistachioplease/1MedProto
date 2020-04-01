@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { 
   StyleSheet, 
   Text, 
@@ -11,15 +12,27 @@ import {
   Button
 } from 'react-native';
 
-function HomeScreen({ navigation } ) {
+function LogoTitle() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
+    <Image
+      style={[styles.logoheader]}
+      source={require('./assets/logo.png')}
+    />
+  );
+}
+
+/*SCREENS*/
+function HomeScreen({ route, navigation } ) {
+  /* get the param in route.params */
+  const { username } = route.params;
+  return (
+    <View style={ [homescreenstyles.homescreencontainer] }>
+      <Text>Hello, {JSON.stringify(username)}!</Text>
       <Button
         title="Go to Home... again"
         onPress={() => navigation.push('Home')}
       />
-      <Button title="Go to Welcome Screen" onPress={() => navigation.navigate('Welcome')} />
+      <Button title="Go to Welcome Screen" onPress={() => navigation.navigate('Welcome')}  />
       <Button title="Go back" onPress={() => navigation.goBack()} />
       <Button
           title="Go back to first screen in stack"
@@ -29,6 +42,14 @@ function HomeScreen({ navigation } ) {
   );
 }
 
+const homescreenstyles = StyleSheet.create({
+  homescreencontainer: { 
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center' 
+  },
+});
+
 function WelcomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
@@ -36,10 +57,22 @@ function WelcomeScreen({ navigation }) {
         <Image source={require('./assets/logo.png')} style={styles.logo} />
       </View>
       <View style={styles.buttoncontainer}>
-        <TouchableOpacity style={styles.btnsignup}>
+        <TouchableOpacity 
+          style={styles.btnsignup}
+          onPress={() => 
+            navigation.navigate('Home')
+          }
+        >
           <Text style={styles.btnsignuptext}>SIGN UP</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnlogin} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity 
+          style={styles.btnlogin} 
+          onPress={() => 
+            navigation.navigate('Home', {
+              username: "Test User"
+            })
+          }
+        >
           <Text style={styles.btnlogintext}>LOGIN</Text>
         </TouchableOpacity>        
       </View>
@@ -47,15 +80,75 @@ function WelcomeScreen({ navigation }) {
   );
 }
 
-const Stack = createStackNavigator();
+function DoctorsAvailableScreen({ route, navigation } ) { 
+  return (
+    <View style={styles.container}>
+      <Text>DoctorsAvailableScreen</Text>      
+    </View>
+  );
+}
+
+function IndividualDoctorScreen({ route, navigation } ) { 
+  return (
+    <View style={styles.container}>
+      <Text>IndividualDoctorScreen</Text>      
+    </View>
+  );
+}
+
+function PaymentOptionsScreen({ route, navigation } ) { 
+  return (
+    <View style={styles.container}>
+      <Text>PaymentOptionsScreen</Text>      
+    </View>
+  );
+}
+
+function AppointmentSetScreen({ route, navigation } ) { 
+  return (
+    <View style={styles.container}>
+      <Text>AppointmentSetScreen</Text>      
+    </View>
+  );
+}
+
+// const Stack = createStackNavigator();
+/*<Stack.Navigator 
+  initialRouteName="Welcome"
+  screenOptions={{
+    headerStyle: {
+      backgroundColor: 'firebrick',
+    },
+    headerTintColor: 'white',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  }}
+>
+  <Stack.Screen 
+    name="Welcome" 
+    component={WelcomeScreen} 
+    options={{headerShown: false}}           
+  />
+  <Stack.Screen 
+    name="Home" 
+    component={HomeScreen} 
+    options={{headerTitle: props => <LogoTitle {...props} />}}
+    initialParams={{ username: "Other User" }}
+  />
+</Stack.Navigator>*/
+const Drawer = createDrawerNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
-        <Stack.Screen name="Welcome" component={WelcomeScreen} options={{headerShown: false}} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
+      <Drawer.Navigator initialRouteName="Welcome">
+        <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ username: "Other User" }} />
+        <Drawer.Screen name="DoctorsAvailable" component={DoctorsAvailableScreen} />
+        <Drawer.Screen name="IndividualDoctorn" component={IndividualDoctorScreen} />
+        <Drawer.Screen name="PaymentOptions" component={PaymentOptionsScreen} />
+        <Drawer.Screen name="AppointmentSet" component={AppointmentSetScreen} />
+      </Drawer.Navigator>       
     </NavigationContainer>
   );
 }
@@ -78,6 +171,12 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'contain'
+  },
+  logoheader: {
+    flex: 1,
+    width: 80,
+    height: 50,
+    resizeMode: 'contain'    
   },
   buttoncontainer: {
     flex: 1,
@@ -108,4 +207,8 @@ const styles = StyleSheet.create({
     margin: 10,
     color: 'white',
   },
+  debugBox: {
+    borderColor: 'pink',
+    borderWidth: 1
+  }
 });
