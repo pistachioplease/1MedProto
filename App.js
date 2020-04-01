@@ -8,14 +8,19 @@ import {
   Text, 
   View,
   Image,
-  TouchableOpacity,
-  Button
+  TouchableOpacity
 } from 'react-native';
+import { 
+  ThemeProvider,
+  Button,
+  Input
+} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function LogoTitle() {
   return (
     <Image
-      style={[styles.logoheader]}
+      style={[appstyles.logoheader]}
       source={require('./assets/logo.png')}
     />
   );
@@ -52,37 +57,123 @@ const homescreenstyles = StyleSheet.create({
 
 function WelcomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <View style={styles.logocontainer}>
-        <Image source={require('./assets/logo.png')} style={styles.logo} />
+    <View style={appstyles.container}>
+      <View style={appstyles.logocontainer}>
+        <Image source={require('./assets/logo.png')} style={appstyles.logo} />
       </View>
-      <View style={styles.buttoncontainer}>
+      <View style={appstyles.buttoncontainer}>
         <TouchableOpacity 
-          style={styles.btnsignup}
+          style={appstyles.btnsignup}
           onPress={() => 
             navigation.navigate('Home')
           }
         >
-          <Text style={styles.btnsignuptext}>SIGN UP</Text>
+          <Text style={appstyles.btnsignuptext}>SIGN UP</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-          style={styles.btnlogin} 
+          style={appstyles.btnlogin} 
           onPress={() => 
             navigation.navigate('Home', {
               username: "Test User"
             })
           }
         >
-          <Text style={styles.btnlogintext}>LOGIN</Text>
+          <Text style={appstyles.btnlogintext}>LOGIN</Text>
         </TouchableOpacity>        
       </View>
     </View>
   );
 }
 
+function LoginScreen({ navigation }) {
+  return (
+    <ThemeProvider theme={theme}>
+      <View style={appstyles.container}>
+        <View style={appstyles.logocontainer}>
+          <Image source={require('./assets/logo.png')} style={appstyles.logo} />
+        </View>
+        <View style={[loginscreenstyles.formcontainer, appstyles.debugBox]}>
+          <Input
+            label='USERNAME'
+          />
+          <Input
+            label='PASSWORD'
+          />
+          <Text style={loginscreenstyles.textforgotpassword}>Forgot Password?</Text>
+
+          <Button
+            title="LOGIN" 
+            onPress={() => 
+              navigation.navigate('DoctorsAvailable')
+            } 
+          />
+          <Text style={loginscreenstyles.graytext}>OR CONNECT WITH</Text>
+          <Button
+            icon={
+              <Icon
+                name="google"
+                size={20}
+                color={theme.colors.primary}
+              />
+            }
+            title=" SIGN UP" 
+            type="outline"
+            buttonStyle={{
+              backgroundColor: 'white',
+            }}
+            onPress={() => 
+              navigation.navigate('DoctorsAvailable')
+            } 
+          />
+
+        </View>
+      </View>
+    </ThemeProvider>
+  );
+}
+
+const loginscreenstyles = StyleSheet.create({
+  formcontainer: { 
+    flex: 1,
+    width: '90%'
+  },
+  graytext: {
+    color: 'lightgray',
+    fontSize: 10,
+    textAlign: 'center',
+    marginBottom: 10
+  },
+  textforgotpassword: {
+    color: 'lightgray',
+    fontSize: 10,
+    textAlign: 'right',
+    marginBottom: 10,
+  }
+});
+
+const theme = {
+  colors: {
+    primary: 'firebrick'
+  },
+  Button: {
+    raised: false,
+    buttonStyle: {
+      backgroundColor: 'firebrick',
+      borderRadius: 20,
+      paddingLeft: 20,
+      paddingRight: 20,
+      marginBottom: 10
+    },
+  },
+  iconContainerStyle: {
+    paddingRight: 10,
+  },
+};
+
+
 function DoctorsAvailableScreen({ route, navigation } ) { 
   return (
-    <View style={styles.container}>
+    <View style={appstyles.container}>
       <Text>DoctorsAvailableScreen</Text>      
     </View>
   );
@@ -90,7 +181,7 @@ function DoctorsAvailableScreen({ route, navigation } ) {
 
 function IndividualDoctorScreen({ route, navigation } ) { 
   return (
-    <View style={styles.container}>
+    <View style={appstyles.container}>
       <Text>IndividualDoctorScreen</Text>      
     </View>
   );
@@ -98,7 +189,7 @@ function IndividualDoctorScreen({ route, navigation } ) {
 
 function PaymentOptionsScreen({ route, navigation } ) { 
   return (
-    <View style={styles.container}>
+    <View style={appstyles.container}>
       <Text>PaymentOptionsScreen</Text>      
     </View>
   );
@@ -106,7 +197,7 @@ function PaymentOptionsScreen({ route, navigation } ) {
 
 function AppointmentSetScreen({ route, navigation } ) { 
   return (
-    <View style={styles.container}>
+    <View style={appstyles.container}>
       <Text>AppointmentSetScreen</Text>      
     </View>
   );
@@ -143,7 +234,9 @@ function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Welcome">
+        <Drawer.Screen name="Welcome" component={WelcomeScreen} />
         <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ username: "Other User" }} />
+        <Drawer.Screen name="Login" component={LoginScreen} />
         <Drawer.Screen name="DoctorsAvailable" component={DoctorsAvailableScreen} />
         <Drawer.Screen name="IndividualDoctorn" component={IndividualDoctorScreen} />
         <Drawer.Screen name="PaymentOptions" component={PaymentOptionsScreen} />
@@ -155,7 +248,7 @@ function App() {
 
 export default App;
 
-const styles = StyleSheet.create({
+const appstyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
