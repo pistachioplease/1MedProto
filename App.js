@@ -10,8 +10,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  FlatList,
-  SafeAreaView
+  FlatList
 } from 'react-native';
 import { 
   ThemeProvider,
@@ -20,6 +19,7 @@ import {
   Avatar,
   ListItem
 } from 'react-native-elements';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const capitalize = (s) => {
@@ -212,11 +212,13 @@ const doctorList = [
   },
 ];
 
-let counter = 0;
+const counter = 0;
 function DoctorsAvailableScreen({ route, navigation } ) { 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
+
+
 
   useEffect(() => {
       fetch('https://randomuser.me/api/?results=20&nat=us,gb,ca', {
@@ -229,8 +231,8 @@ function DoctorsAvailableScreen({ route, navigation } ) {
         setLoading(false);
       })
       .catch(error=>console.log(error)) //to catch the errors if any
-      counter++;
-  }, []);
+      // counter++;
+  }, [counter]);
 
   if(isLoading){
     return( 
@@ -238,22 +240,23 @@ function DoctorsAvailableScreen({ route, navigation } ) {
         <ActivityIndicator size="large" color="#0c9"/>
       </View>
   )};
+
+
   return (
     <ThemeProvider theme={theme}>
       <View style={doctoravailablescreenstyle.container}>
-        <Text style={doctoravailablescreenstyle.screentitle}>Doctors Available Screen</Text>
+        <Text style={doctoravailablescreenstyle.screentitle}>Doctors Available</Text>
        
         <Text style={appstyles.debugText}>{JSON.stringify(debugText)} {counter}</Text>
         <SafeAreaView style={doctoravailablescreenstyle.listcontainer}>
           <FlatList
             data={data}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <ListItem
-                key={item.login.uuid}
+                key={index}
                 leftAvatar={{ source: { uri: item.picture.thumbnail } }}
                 title={capitalize(item.name.first) +" "+ capitalize(item.name.last)}
                 subtitle={randomJobTitles()}
-                size="large"
                 bottomDivider
                 chevron
                 onPress={() => {
@@ -297,60 +300,69 @@ const doctoravailablescreenstyle = StyleSheet.create({
 });
 
 function IndividualDoctorScreen({ route, navigation } ) {
-  const { userData } = route.params; 
+  const {userData}= route.params; 
   const userName = capitalize(userData.name.first) +" "+ capitalize(userData.name.last);
   const list = [
     {
       title: 'QUICK CONSULTATION',
-      subtitle: 'We will call you at a set time!'
+      subtitle: 'We will call you at a set time!',
+      colors: ['darkorange', 'orange']
     },
     {
       title: 'CONSULTATION',
-      subtitle: 'Virtual Meeting with your physician (30 min)'
+      subtitle: 'Virtual Meeting with your physician (30 min)',
+      colors: ['lightcoral', 'crimson']
     },
     {
       title: 'EXTEND CONSULTATION',
-      subtitle: 'Virtual Meeting with your physician (60 min)'
+      subtitle: 'Virtual Meeting with your physician (60 min)',
+      colors: ['darkgreen', 'green']
     },
     {
       title: 'MEET & GREET',
-      subtitle: 'Introductory Meeting with your physician'
+      subtitle: 'Introductory Meeting with your physician',
+      colors: ['deepskyblue', 'dodgerblue']
     },
-  ]
+  ];
+  // <Text style={appstyles.debugText}>{JSON.stringify(userData.picture.medium)}</Text>
 
   return (
     <ThemeProvider theme={theme}>
-      <View style={[individualdoctorstyle.container, appstyles.debugBox]}>
-        <ListItem
-          leftAvatar={{
-            title: { {userName} },
-            source: { uri: userData.picture.medium },
-          }}
-          title={userName}
-          subtitle={
-            <View style={individualdoctorstyle.subtitleView}>
-              <Text>{randomJobTitles()}</Text>
-              <Text>Emergency Number: {userData.phone}</Text>
-            </View>
-          }
-          chevron
-        />;
+      <SafeAreaView style={[individualdoctorstyle.container]}>
+        
+          <ListItem
+            title={userName}
+            titleStyle={{ fontWeight: 'bold', fontSize: 24 }}
+            subtitle={
+              <View style={individualdoctorstyle.subtitleView}>
+                <Text style={individualdoctorstyle.jobTitle}>{randomJobTitles()}</Text>
+                <Text style={individualdoctorstyle.description}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</Text>
+                <Text style={individualdoctorstyle.number}>Emergency Number: {userData.phone}</Text>
+              </View>
+            }
+            leftAvatar={{ source: { uri: userData.picture.large }, size: "large" }}
+          />
         <View>
           {
             list.map((item, i) => (
-              <ListItem
+              <ListItem style={individualdoctorstyle.buttons}
                 key={i}
                 title={item.title}
                 subtitle={item.subtitle}
-                titleStyle={{ textAlign: 'center' }}
-                subtitleStyle={{ textAlign: 'center' }}
+                titleStyle={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}
+                subtitleStyle={{ textAlign: 'center', color: 'white', fontSize: 12, fontStyle: 'italic' }}
+                linearGradientProps={{
+                  colors: item.colors,
+                  start: [1, 0],
+                  end: [0.2, 0],
+                }}
                 bottomDivider
                 chevron
               />
             ))
           }
         </View>
-      </View>
+      </SafeAreaView>
     </ThemeProvider>
   );
 }
@@ -359,6 +371,27 @@ const individualdoctorstyle = StyleSheet.create({
   container: { 
     flex: 1,
     padding: 10,
+    margin: 10,
+  },
+  subtitleView: {
+    marginBottom: 20,
+  },
+  jobTitle: {
+    color: 'slategray',
+    fontStyle: 'italic',
+    fontSize: 18,
+  },
+  description: {
+    color: 'slategray',
+    fontSize: 10,
+    marginBottom: 5
+  },
+  number: {
+    color: 'firebrick',
+    fontWeight: 'bold',
+  },
+  buttons: {
+    marginBottom: 10,
   }
 });
 
