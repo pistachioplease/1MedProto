@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -8,14 +8,24 @@ import {
   Text, 
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView
 } from 'react-native';
 import { 
   ThemeProvider,
   Button,
-  Input
+  Input,
+  Avatar,
+  ListItem
 } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
 
 function LogoTitle() {
   return (
@@ -135,7 +145,8 @@ function LoginScreen({ navigation }) {
 const loginscreenstyles = StyleSheet.create({
   formcontainer: { 
     flex: 1,
-    width: '90%'
+    width: '90%',
+    padding: 10
   },
   graytext: {
     color: 'lightgray',
@@ -168,16 +179,111 @@ const theme = {
   iconContainerStyle: {
     paddingRight: 10,
   },
+  ListItem: {
+
+  }
 };
 
+const doctorList = [
+  {
+    name: 'Amy Farha',
+    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+    subtitle: 'General Practitioner'
+  },
+  {
+    name: 'Chris Jackson',
+    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+    subtitle: 'Pediatrician'
+  },
+];
 
 function DoctorsAvailableScreen({ route, navigation } ) { 
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [debugText, setDebugText] = useState([]);
+
+  let jobTitles = [
+    "Internal Medicine",
+    "Pediatrician",
+    "Family Medicine",
+    "General Surgery",
+    "Psychiatry",
+    "Neurology",
+    "Pathology",
+    "Geriatrics",
+  ];
+
+  useEffect(() => {
+      fetch('https://randomuser.me/api/?results=20&nat=us,gb,ca', {
+        method: 'GET'        
+      })
+      .then(response => response.json())
+      .then((responseJson)=> {
+        setData(responseJson.results);
+        setDebugText(responseJson.info);
+        setLoading(false);
+      })
+      .catch(error=>console.log(error)) //to catch the errors if any
+  }, []);
+
+  if(isLoading){
+    return( 
+      <View style={appstyles.loader}> 
+        <ActivityIndicator size="large" color="#0c9"/>
+      </View>
+  )};
   return (
-    <View style={appstyles.container}>
-      <Text>DoctorsAvailableScreen</Text>      
-    </View>
+    <ThemeProvider theme={theme}>
+      <View style={doctoravailablescreenstyle.container}>
+        <Text style={doctoravailablescreenstyle.screentitle}>Doctors Available Screen</Text>
+       
+        <Text style={appstyles.debugText}>{JSON.stringify(debugText)}</Text>
+        <SafeAreaView style={doctoravailablescreenstyle.listcontainer}>
+          <FlatList
+            data={data}
+            renderItem={({ item }) => (
+              <ListItem
+                key={item.login.uuid}
+                leftAvatar={{ source: { uri: item.picture.thumbnail } }}
+                title={capitalize(item.name.first) +" "+ capitalize(item.name.last)}
+                subtitle={jobTitles[Math.floor(Math.random() * jobTitles.length)]}
+                size="large"
+                bottomDivider
+                chevron
+              />
+            )}
+          />
+        </SafeAreaView>
+      </View>
+    </ThemeProvider>
   );
 }
+
+const doctoravailablescreenstyle = StyleSheet.create({
+  container: { 
+    flex: 1,
+    padding: 10,
+    alignItems: 'center'
+  },
+  listcontainer: {
+    flex: 1,
+    width: "100%",
+    flexDirection: 'column',
+    marginTop: 10,
+    justifyContent: 'flex-start'
+  },
+  indidoctor: {
+    flex: 1,
+    padding: 10,
+    justifyContent: "flex-start"
+  },
+  screentitle: {
+    color: 'slategray',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 20
+  }
+});
 
 function IndividualDoctorScreen({ route, navigation } ) { 
   return (
@@ -255,6 +361,12 @@ const appstyles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
   },
+  loader:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
   logocontainer: {
     flex: 1,
     width: '60%',
@@ -303,5 +415,10 @@ const appstyles = StyleSheet.create({
   debugBox: {
     borderColor: 'pink',
     borderWidth: 1
+  },
+  debugText: {
+    color: 'lightgray',
+    fontStyle: 'italic',
+    fontSize: 10
   }
 });
