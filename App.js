@@ -36,6 +36,21 @@ function LogoTitle() {
   );
 }
 
+const jobTitles = [
+  "Internal Medicine",
+  "Pediatrician",
+  "Family Medicine",
+  "General Surgery",
+  "Psychiatry",
+  "Neurology",
+  "Pathology",
+  "Geriatrics",
+];
+
+const randomJobTitles = () => {
+  return jobTitles[Math.floor(Math.random() * jobTitles.length)];
+}
+
 /*SCREENS*/
 function HomeScreen({ route, navigation } ) {
   /* get the param in route.params */
@@ -197,21 +212,11 @@ const doctorList = [
   },
 ];
 
+let counter = 0;
 function DoctorsAvailableScreen({ route, navigation } ) { 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
-
-  let jobTitles = [
-    "Internal Medicine",
-    "Pediatrician",
-    "Family Medicine",
-    "General Surgery",
-    "Psychiatry",
-    "Neurology",
-    "Pathology",
-    "Geriatrics",
-  ];
 
   useEffect(() => {
       fetch('https://randomuser.me/api/?results=20&nat=us,gb,ca', {
@@ -224,6 +229,7 @@ function DoctorsAvailableScreen({ route, navigation } ) {
         setLoading(false);
       })
       .catch(error=>console.log(error)) //to catch the errors if any
+      counter++;
   }, []);
 
   if(isLoading){
@@ -237,7 +243,7 @@ function DoctorsAvailableScreen({ route, navigation } ) {
       <View style={doctoravailablescreenstyle.container}>
         <Text style={doctoravailablescreenstyle.screentitle}>Doctors Available Screen</Text>
        
-        <Text style={appstyles.debugText}>{JSON.stringify(debugText)}</Text>
+        <Text style={appstyles.debugText}>{JSON.stringify(debugText)} {counter}</Text>
         <SafeAreaView style={doctoravailablescreenstyle.listcontainer}>
           <FlatList
             data={data}
@@ -246,10 +252,15 @@ function DoctorsAvailableScreen({ route, navigation } ) {
                 key={item.login.uuid}
                 leftAvatar={{ source: { uri: item.picture.thumbnail } }}
                 title={capitalize(item.name.first) +" "+ capitalize(item.name.last)}
-                subtitle={jobTitles[Math.floor(Math.random() * jobTitles.length)]}
+                subtitle={randomJobTitles()}
                 size="large"
                 bottomDivider
                 chevron
+                onPress={() => {
+                  navigation.navigate('IndividualDoctor', {
+                    userData: item
+                  });
+                }}
               />
             )}
           />
@@ -285,13 +296,71 @@ const doctoravailablescreenstyle = StyleSheet.create({
   }
 });
 
-function IndividualDoctorScreen({ route, navigation } ) { 
+function IndividualDoctorScreen({ route, navigation } ) {
+  const { userData } = route.params; 
+  const userName = capitalize(userData.name.first) +" "+ capitalize(userData.name.last);
+  const list = [
+    {
+      title: 'QUICK CONSULTATION',
+      subtitle: 'We will call you at a set time!'
+    },
+    {
+      title: 'CONSULTATION',
+      subtitle: 'Virtual Meeting with your physician (30 min)'
+    },
+    {
+      title: 'EXTEND CONSULTATION',
+      subtitle: 'Virtual Meeting with your physician (60 min)'
+    },
+    {
+      title: 'MEET & GREET',
+      subtitle: 'Introductory Meeting with your physician'
+    },
+  ]
+
   return (
-    <View style={appstyles.container}>
-      <Text>IndividualDoctorScreen</Text>      
-    </View>
+    <ThemeProvider theme={theme}>
+      <View style={[individualdoctorstyle.container, appstyles.debugBox]}>
+        <ListItem
+          leftAvatar={{
+            title: { {userName} },
+            source: { uri: userData.picture.medium },
+          }}
+          title={userName}
+          subtitle={
+            <View style={individualdoctorstyle.subtitleView}>
+              <Text>{randomJobTitles()}</Text>
+              <Text>Emergency Number: {userData.phone}</Text>
+            </View>
+          }
+          chevron
+        />;
+        <View>
+          {
+            list.map((item, i) => (
+              <ListItem
+                key={i}
+                title={item.title}
+                subtitle={item.subtitle}
+                titleStyle={{ textAlign: 'center' }}
+                subtitleStyle={{ textAlign: 'center' }}
+                bottomDivider
+                chevron
+              />
+            ))
+          }
+        </View>
+      </View>
+    </ThemeProvider>
   );
 }
+
+const individualdoctorstyle = StyleSheet.create({
+  container: { 
+    flex: 1,
+    padding: 10,
+  }
+});
 
 function PaymentOptionsScreen({ route, navigation } ) { 
   return (
@@ -344,7 +413,7 @@ function App() {
         <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ username: "Other User" }} />
         <Drawer.Screen name="Login" component={LoginScreen} />
         <Drawer.Screen name="DoctorsAvailable" component={DoctorsAvailableScreen} />
-        <Drawer.Screen name="IndividualDoctorn" component={IndividualDoctorScreen} />
+        <Drawer.Screen name="IndividualDoctor" component={IndividualDoctorScreen} />
         <Drawer.Screen name="PaymentOptions" component={PaymentOptionsScreen} />
         <Drawer.Screen name="AppointmentSet" component={AppointmentSetScreen} />
       </Drawer.Navigator>       
@@ -419,6 +488,6 @@ const appstyles = StyleSheet.create({
   debugText: {
     color: 'lightgray',
     fontStyle: 'italic',
-    fontSize: 10
+    fontSize: 14
   }
 });
