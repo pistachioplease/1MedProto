@@ -20,6 +20,7 @@ import {
   ListItem
 } from 'react-native-elements';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { WebView } from 'react-native-webview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const capitalize = (s) => {
@@ -79,6 +80,12 @@ const homescreenstyles = StyleSheet.create({
     justifyContent: 'center' 
   },
 });
+
+function CalendlyScreen({ navigation }) {
+  return (   
+     <WebView source={{ uri: 'https://calendly.com/catestcsgo' }} style={{ marginTop: 20 }} />
+  );
+}
 
 function WelcomeScreen({ navigation }) {
   return (
@@ -441,7 +448,8 @@ const Drawer = createDrawerNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Welcome">
+      <Drawer.Navigator initialRouteName="Calendly">
+        <Drawer.Screen name="Calendly" component={CalendlyScreen} />
         <Drawer.Screen name="Welcome" component={WelcomeScreen} />
         <Drawer.Screen name="Home" component={HomeScreen} initialParams={{ username: "Other User" }} />
         <Drawer.Screen name="Login" component={LoginScreen} />
