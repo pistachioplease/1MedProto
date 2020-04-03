@@ -43,7 +43,7 @@ const Doctors = props => {
   if(isLoading){
     return( 
       <View style={styles.loader}> 
-        <ActivityIndicator size="large" color="#0c9"/>
+        <ActivityIndicator size="large" color="firebrick"/>
       </View>
   )};
 
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    color: 'firebrick'
   },
   listcontainer: {
     flex: 1,

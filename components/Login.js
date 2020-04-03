@@ -34,7 +34,7 @@ const Login = props => {
         <Button
           title="LOGIN" 
           onPress={() => 
-            navigation.navigate('DoctorsAvailable')
+            navigation.navigate('Doctors')
           } 
         />
         <Text style={styles.graytext}>OR CONNECT WITH</Text>
@@ -52,7 +52,7 @@ const Login = props => {
             backgroundColor: 'white',
           }}
           onPress={() => 
-            navigation.navigate('DoctorsAvailable')
+            navigation.navigate('Doctors')
           } 
         />
 

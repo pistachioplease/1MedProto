@@ -2,7 +2,6 @@ import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { 
   StyleSheet, 
   Text, 
@@ -20,13 +19,11 @@ import {
   ListItem
 } from 'react-native-elements';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { WebView } from 'react-native-webview';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Util from './library/Util';
 import Login from './components/Login';
 import Doctors from './components/Doctors';
 import IndividualDoctor from './components/IndividualDoctor';
-import Calendly from './components/Calendly';
 
 const theme = {
   colors: {
@@ -60,7 +57,7 @@ function LogoTitle() {
 }
 
 /*SCREENS*/
-function PaymentOptionsScreen({ route, navigation } ) { 
+function PaymentOptions({ route, navigation } ) { 
   return (
     <View style={appstyles.container}>
       <Text>PaymentOptionsScreen</Text>      
@@ -68,53 +65,24 @@ function PaymentOptionsScreen({ route, navigation } ) {
   );
 }
 
-function AppointmentSetScreen({ route, navigation } ) { 
+const Stack = createStackNavigator();
+
+function RootStack() {
   return (
-    <View style={appstyles.container}>
-      <Text>AppointmentSetScreen</Text>      
-    </View>
+    <Stack.Navigator initialRouteName="Login" headerMode='none'>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Doctors" component={Doctors} />
+      <Stack.Screen name="IndividualDoctor" component={IndividualDoctor} />
+      <Stack.Screen name="PaymentOptions" component={PaymentOptions} />
+    </Stack.Navigator>
   );
 }
-
-// const Stack = createStackNavigator();
-/*<Stack.Navigator 
-  initialRouteName="Welcome"
-  screenOptions={{
-    headerStyle: {
-      backgroundColor: 'firebrick',
-    },
-    headerTintColor: 'white',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  }}
->
-  <Stack.Screen 
-    name="Welcome" 
-    component={WelcomeScreen} 
-    options={{headerShown: false}}           
-  />
-  <Stack.Screen 
-    name="Home" 
-    component={HomeScreen} 
-    options={{headerTitle: props => <LogoTitle {...props} />}}
-    initialParams={{ username: "Other User" }}
-  />
-</Stack.Navigator>*/
-const Drawer = createDrawerNavigator();
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Doctors">
-          <Drawer.Screen name="Calendly" component={Calendly} />
-          <Drawer.Screen name="Login" component={Login} />
-          <Drawer.Screen name="Doctors" component={Doctors} />
-          <Drawer.Screen name="IndividualDoctor" component={IndividualDoctor} />
-          <Drawer.Screen name="PaymentOptions" component={PaymentOptionsScreen} />
-          <Drawer.Screen name="AppointmentSet" component={AppointmentSetScreen} />
-        </Drawer.Navigator>       
+        <RootStack />
       </NavigationContainer>
     </ThemeProvider>
   );
