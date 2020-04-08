@@ -54,6 +54,12 @@ const Doctors = props => {
     <SafeAreaView style={styles.container}>
       <Text style={styles.welcomeText}>User ID: {user.uid}</Text>
       <Text style={styles.screentitle}>Doctors Available</Text>
+      <Button
+          title="Add Doctor" 
+          onPress={() => {
+            navigation.navigate('AddDoctor');
+          }}
+        />
       <View style={styles.listcontainer}>
         <FlatList
           data={data}
