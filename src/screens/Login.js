@@ -10,12 +10,28 @@ import {
   Button,
   Input,
 } from 'react-native-elements';
+import * as firebase from 'firebase';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Util from '../library/Util';
 
 const Login = props => {
   const navigation = useNavigation();
+
+  async function signIn() {
+    try {
+      await firebase.auth().signInAnonymously()
+    } catch (e) {
+      switch (e.code) {
+        case 'auth/operation-not-allowed':
+          console.log('Enable anonymous in your firebase console.')
+          break
+        default:
+          console.error(e)
+          break
+      }
+    }
+  }
 
   return (
     <View style={[styles.container]}>
@@ -33,9 +49,7 @@ const Login = props => {
 
         <Button
           title="LOGIN" 
-          onPress={() => 
-            navigation.navigate('Doctors')
-          } 
+          onPress={signIn} 
         />
         <Text style={styles.graytext}>OR CONNECT WITH</Text>
         <Button

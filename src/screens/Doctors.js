@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useState, useContext } from 'react';
 import { 
   StyleSheet, 
   Text, 
@@ -17,12 +17,14 @@ import {
   ListItem
 } from 'react-native-elements';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { AuthContext } from '../navigation/AuthNavigator';
 import Util from '../library/Util';
 
 const counter = 0;
 
 const Doctors = props => {
   const navigation = useNavigation();
+  const user = useContext(AuthContext);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
@@ -50,6 +52,7 @@ const Doctors = props => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.welcomeText}>User ID: {user.uid}</Text>
       <Text style={styles.screentitle}>Doctors Available</Text>
       <View style={styles.listcontainer}>
         <FlatList
@@ -102,11 +105,13 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "flex-start"
   },
+  welcomeText: {
+    marginTop: 10
+  },
   screentitle: {
     color: 'slategray',
     fontSize: 18,
-    textAlign: 'center',
-    marginTop: 10
+    textAlign: 'center',    
   },
 
   debugBox: {
