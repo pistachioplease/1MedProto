@@ -17,7 +17,7 @@ import {
   ListItem
 } from 'react-native-elements';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import Util from './../library/Util';
+import Util from '../library/Util';
 
 const counter = 0;
 

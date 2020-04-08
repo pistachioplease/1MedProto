@@ -12,7 +12,7 @@ import {
 } from 'react-native-elements';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Util from './../library/Util';
+import Util from '../library/Util';
 
 const Login = props => {
   const navigation = useNavigation();
@@ -20,7 +20,7 @@ const Login = props => {
   return (
     <View style={[styles.container]}>
       <View style={styles.logocontainer}>
-        <Image source={require('./../assets/logo.png')} style={styles.logo} />
+        <Image source={require('./../../assets/logo.png')} style={styles.logo} />
       </View>
       <View style={[styles.formcontainer, styles.debugBox]}>
         <Input

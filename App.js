@@ -20,10 +20,10 @@ import {
 } from 'react-native-elements';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Util from './library/Util';
-import Login from './components/Login';
-import Doctors from './components/Doctors';
-import IndividualDoctor from './components/IndividualDoctor';
+import Util from './src/library/Util';
+import Login from './src/screens/Login';
+import Doctors from './src/screens/Doctors';
+import IndividualDoctor from './src/screens/IndividualDoctor';
 
 const theme = {
   colors: {
