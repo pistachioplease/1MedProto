@@ -19,18 +19,19 @@ const AddDoctor = props => {
   const navigation = useNavigation();
 
   const [text, setText] = useState('');
-  const [email, setEmail] = useState('');
-  const [title, setTitle] = useState('');
-  const [first, setFirst] = useState('');
-  const [last, setLast] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
-  const [phone, setPhone] = useState('');
-  const [cell, setCell] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [email, setEmail] = useState('angbagongako@gmail.com');
+  const [title, setTitle] = useState('Mr.');
+  const [first, setFirst] = useState('Kirk');
+  const [last, setLast] = useState('Hollohan');
+  const [jobTitle, setJobTitle] = useState('General Practitioner');
+  const [phone, setPhone] = useState('(293)-404-3040');
+  const [cell, setCell] = useState('(280)-310-4657');
+  const [imageUrl, setImageUrl] = useState('gs://authflow-b1864.appspot.com/92.jpg');
 
   function writeUserData(email, title, first, last, jobTitle, phone, cell, imageUrl) {
-    userId = Util.uuidv4();
-    firebase.database().ref('doctors/' + userId).set({
+    let userId = Util.uuidv4();
+    firebase.database().ref('Doctors/').push({
+      id: userId,
       email: email,
       name: {
         title: title,
@@ -41,6 +42,11 @@ const AddDoctor = props => {
       phone: phone,
       cell: cell,
       imageUrl: imageUrl,
+    }).then((data)=>{
+        setText(JSON.stringify(data));
+    }).catch((error)=>{
+        //error callback
+        console.log('error ' , error)
     });
   }
       //"phone":"(293)-404-3040","cell":"(280)-310-4657"
@@ -63,19 +69,7 @@ const AddDoctor = props => {
       <Button 
         title="Add"
         onPress={ () => {
-          setText(JSON.stringify({
-            userId:  Util.uuidv4(),
-            email: email,
-              name: {
-                title: title,
-                first: first,
-                last: last,
-              },
-              jobTitle: jobTitle,
-              phone: phone,
-              cell: cell,
-              imageUrl: imageUrl,
-          }));
+          writeUserData(email, title, first, last, jobTitle, phone, cell, imageUrl);
         }}
       />
       <Text>{text}</Text>
