@@ -16,13 +16,14 @@ import {
   Avatar,
   ListItem
 } from 'react-native-elements';
+import * as firebase from 'firebase';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../navigation/AuthNavigator';
 import Util from '../library/Util';
 
-const counter = 0;
-
 const Doctors = props => {
+  const database = firebase.database();
+  const storage = firebase.storage();
   const navigation = useNavigation();
   const user = useContext(AuthContext);
   const [isLoading, setLoading] = useState(true);
@@ -30,17 +31,32 @@ const Doctors = props => {
   const [debugText, setDebugText] = useState([]);
 
   useEffect(() => {
-      fetch('https://randomuser.me/api/?results=20&nat=us,gb,ca', {
+     /* fetch('https://randomuser.me/api/?results=20&nat=us,gb,ca', {
         method: 'GET'        
       })
       .then(response => response.json())
       .then((responseJson)=> {
         setData(responseJson.results);
-        setDebugText(responseJson.info);
         setLoading(false);
       })
-      .catch(error=>console.log(error)) //to catch the errors if any
-  }, [counter]);
+      .catch(error=>console.log(error)) //to catch the errors if any*/
+      var ref = database.ref("Doctors");
+      ref.on('value', snapshot => {
+        var returnArray = [];
+
+        snapshot.forEach(function(snap) {
+            var item = snap.val();
+            item.key = snap.key;
+
+            returnArray.push(item);
+        });
+
+        setData(returnArray);
+        setDebugText(returnArray.length);
+        setLoading(false);
+      });
+        // setData(data.val());
+  }, []);
 
   if(isLoading){
     return( 
@@ -49,26 +65,36 @@ const Doctors = props => {
       </View>
   )};
 
+  /*<Button
+    title="Add Doctor" 
+    onPress={() => {
+      navigation.navigate('AddDoctor');
+    }}
+  />*/
+  /*leftAvatar={{ 
+            source: { 
+              uri: imageUrl 
+            } 
+          }}*/
+  // let imageUrl = "";
+  // let gsReference = "";
+  // gsReference = storage.refFromURL(item.imageUrl);
+            // gsReference.getDownloadURL().then(function(url) {
+            //   imageUrl = url;
+            // });
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.welcomeText}>User ID: {user.uid}</Text>
       <Text style={styles.screentitle}>Doctors Available</Text>
-      <Button
-          title="Add Doctor" 
-          onPress={() => {
-            navigation.navigate('AddDoctor');
-          }}
-        />
+     
       <View style={styles.listcontainer}>
         <FlatList
           data={data}
-          renderItem={({ item, index }) => (
-            <ListItem
-              key={index}
-              leftAvatar={{ source: { uri: item.picture.thumbnail } }}
+          renderItem={({ item }) => (
+            <ListItem              
               title={Util.capitalize(item.name.first) +" "+ Util.capitalize(item.name.last)}
-              subtitle={Util.randomJobTitles()}
+              subtitle={item.jobTitle}
               bottomDivider
               chevron
               onPress={() => {
@@ -80,7 +106,7 @@ const Doctors = props => {
           )}
         />
       </View>
-      <Text style={styles.debugText}>{JSON.stringify(debugText)} {counter}</Text>
+      <Text style={styles.debugText}>{JSON.stringify(debugText)}</Text>
     </SafeAreaView>
   );
 }
