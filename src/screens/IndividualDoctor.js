@@ -56,12 +56,12 @@ const IndividualDoctor = props => {
         titleStyle={{ fontWeight: 'bold', fontSize: 24 }}
         subtitle={
           <View style={individualdoctorstyle.subtitleView}>
-            <Text style={individualdoctorstyle.jobTitle}>{Util.randomJobTitles()}</Text>
-            <Text style={individualdoctorstyle.description}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</Text>
+            <Text style={individualdoctorstyle.jobTitle}>{userData.jobTitle}</Text>
+            <Text style={individualdoctorstyle.description}>{userData.subTitle}</Text>
             <Text style={individualdoctorstyle.number}>Emergency Number: {userData.phone}</Text>
           </View>
         }
-        leftAvatar={{ source: { uri: userData.picture.large }, size: "large" }}
+        leftAvatar={{ source: { uri: userData.imageUrl}, size: "large" }}
       />
       <Calendly />
       

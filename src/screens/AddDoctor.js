@@ -39,9 +39,10 @@ const AddDoctor = props => {
           last: 'Hollohan',
         },
         jobTitle: 'General Practitioner',
-        phone: '519-858-1MED (1633)',
+        subTitle: "As an entrepreneur and award-winning physician, Dr. Kirk Hollohan saw that there was a problem: people were waiting too long to get access to the health care they needed. So, he created 1MED.",
+        phone: '519-858-163)',
         cell: '519-858-1MED (1633)',
-        imageUrl: 'gs://authflow-b1864.appspot.com/doctors/kirk-ed.jpg',
+        imageUrl: "https://firebasestorage.googleapis.com/v0/b/authflow-b1864.appspot.com/o/doctors%2Fkirk-ed.jpg?alt=media&token=ece3890d-750b-43ae-b807-a1215985b4a6",
       },
       {
         email: "abbie.rice@example.com",
@@ -51,6 +52,7 @@ const AddDoctor = props => {
           last: "Rice",
         },
         jobTitle: "Pediatrician",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "016973 04665",
         cell: "0780-582-221",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/42.jpg",
@@ -63,6 +65,7 @@ const AddDoctor = props => {
           last: "Hale",
         },
         jobTitle: "Family Medicine",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "016973 61283",
         cell: "0748-400-903",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/66.jpg",
@@ -75,6 +78,7 @@ const AddDoctor = props => {
           last: "Rhodes",
         },
         jobTitle: "General Surgery",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "(387)-760-8082",
         cell: "(122)-458-0537",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/1.jpg",
@@ -87,6 +91,7 @@ const AddDoctor = props => {
           last: "Ross"
         },
         jobTitle: "Psychiatry",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone:  "01695 47504",
         cell: "0759-551-515",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/90.jpg",
@@ -99,6 +104,7 @@ const AddDoctor = props => {
           last: "Gonzalez"
         },
         jobTitle: "Neurology",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone:  "013873 72340",
         cell:"0762-387-508",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/59.jpg",
@@ -111,6 +117,7 @@ const AddDoctor = props => {
           last: "Peters"
         },
         jobTitle: "Pathology",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "(077)-989-4223",
         cell: "(957)-508-2953",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/0.jpg",
@@ -123,6 +130,7 @@ const AddDoctor = props => {
           last: "Watkins"
         },
         jobTitle: "Psychiatry",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "(641)-919-7582",
         cell: "(219)-785-5769",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/28.jpg",
@@ -135,6 +143,7 @@ const AddDoctor = props => {
           last: "Hayes"
         },
         jobTitle: "Family Medicine",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "(210)-074-3089",
         cell: "(158)-578-4471",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/51.jpg",
@@ -147,6 +156,7 @@ const AddDoctor = props => {
           last: "Sutton"
         },
         jobTitle: "Internal Medicine",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "(576)-963-7561",
         cell: "(214)-776-8466",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/96.jpg",
@@ -159,6 +169,7 @@ const AddDoctor = props => {
           last: "Park"
         },
         jobTitle: "General Practitioner",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "384-764-2568",
         cell:  "939-130-5779",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/29.jpg",
@@ -171,6 +182,7 @@ const AddDoctor = props => {
           last: "Phillips"
         },
         jobTitle: "General Practitioner",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Sed do eiusmod tempor incididunt ut labore et dolore magna",
         phone: "(284)-155-0862",
         cell: "(445)-016-8904",
         imageUrl: "gs://authflow-b1864.appspot.com/doctors/45.jpg",

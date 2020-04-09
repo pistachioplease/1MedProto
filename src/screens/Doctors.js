@@ -31,31 +31,30 @@ const Doctors = props => {
   const [debugText, setDebugText] = useState([]);
 
   useEffect(() => {
-     /* fetch('https://randomuser.me/api/?results=20&nat=us,gb,ca', {
-        method: 'GET'        
-      })
-      .then(response => response.json())
-      .then((responseJson)=> {
-        setData(responseJson.results);
-        setLoading(false);
-      })
-      .catch(error=>console.log(error)) //to catch the errors if any*/
-      var ref = database.ref("Doctors");
-      ref.on('value', snapshot => {
-        var returnArray = [];
+    var ref = database.ref("Doctors");
+    ref.on('value', snapshot => {
+      var returnArray = [];
 
-        snapshot.forEach(function(snap) {
-            var item = snap.val();
-            item.key = snap.key;
+      snapshot.forEach(function(snap) {
+        let newImageUrl = "";
+        // storage.refFromURL(snap.val().imageUrl).getDownloadURL().then(function(url) {
+        //   newImageUrl = url;
+        // }).catch(function(error) {
+        //   // Handle any errors
+        // });
 
-            returnArray.push(item);
-        });
+        var item = snap.val();
+        item.key = snap.key;
+        // item.imageUrl = newImageUrl;
 
-        setData(returnArray);
-        setDebugText(returnArray.length);
-        setLoading(false);
+        returnArray.push(item);
       });
-        // setData(data.val());
+
+      setData(returnArray);
+      // setDebugText(returnArray);
+      setLoading(false);
+    });
+      
   }, []);
 
   if(isLoading){
@@ -65,34 +64,30 @@ const Doctors = props => {
       </View>
   )};
 
-  /*<Button
+  /*
+ <Button
     title="Add Doctor" 
     onPress={() => {
       navigation.navigate('AddDoctor');
     }}
-  />*/
-  /*leftAvatar={{ 
-            source: { 
-              uri: imageUrl 
-            } 
-          }}*/
-  // let imageUrl = "";
-  // let gsReference = "";
-  // gsReference = storage.refFromURL(item.imageUrl);
-            // gsReference.getDownloadURL().then(function(url) {
-            //   imageUrl = url;
-            // });
+  />
+  */
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.welcomeText}>User ID: {user.uid}</Text>
       <Text style={styles.screentitle}>Doctors Available</Text>
-     
+    
       <View style={styles.listcontainer}>
         <FlatList
           data={data}
           renderItem={({ item }) => (
-            <ListItem              
+            <ListItem
+              leftAvatar={{ 
+                source: { 
+                  uri: item.imageUrl 
+                } 
+              }}
               title={Util.capitalize(item.name.first) +" "+ Util.capitalize(item.name.last)}
               subtitle={item.jobTitle}
               bottomDivider
