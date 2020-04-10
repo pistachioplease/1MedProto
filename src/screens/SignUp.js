@@ -4,6 +4,7 @@ import {
   Text, 
   View,
   Image,
+  TouchableOpacity
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { 
@@ -27,7 +28,7 @@ const SignUp = props => {
   }
 
   return (
-    <View style={[styles.container]}>
+    <SafeAreaView style={[styles.container]}>
       <Text>Sign Up</Text>
       {errorMessage &&
         <Text style={{ color: 'red' }}>
@@ -47,11 +48,12 @@ const SignUp = props => {
         value={password}
       />
       <Button title="Sign Up" onPress={handleSignUp} />
-      <Button
-        title="Already have an account? Login"
+      <TouchableOpacity        
         onPress={() => navigation.navigate('Login')}
-      />
-    </View>
+      >
+        <Text>Already have an account? Login</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
 

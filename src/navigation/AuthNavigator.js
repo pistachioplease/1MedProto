@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export const AuthContext = createContext (null);
+export const AuthContext = createContext ({});
 
 export default function AuthNavigator() {
   const [initializing, setInitializing] = useState(true);
