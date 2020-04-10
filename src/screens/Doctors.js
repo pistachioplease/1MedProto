@@ -75,7 +75,7 @@ const Doctors = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.welcomeText}>User ID: {user.uid}</Text>
+      <Text style={styles.welcomeText}>User ID: {user.email}</Text>
       <Text style={styles.screentitle}>Doctors Available</Text>
     
       <View style={styles.listcontainer}>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { 
   StyleSheet, 
   Text, 
@@ -17,6 +17,10 @@ import Util from '../library/Util';
 
 const Login = props => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   async function signIn() {
     try {
@@ -39,11 +43,22 @@ const Login = props => {
         <Image source={require('./../../assets/logo.png')} style={styles.logo} />
       </View>
       <View style={[styles.formcontainer, styles.debugBox]}>
+        {errorMessage &&
+          <Text style={{ color: 'red' }}>
+            {errorMessage}
+          </Text>}
         <Input
-          label='USERNAME'
+          autoCapitalize="none"
+          placeholder="Email"
+          onChangeText={email => this.setState({ email })}
+          value={email}
         />
         <Input
-          label='PASSWORD'
+          secureTextEntry
+          autoCapitalize="none"
+          placeholder="Password"
+          onChangeText={password => this.setState({ password })}
+          value={password}
         />
         <Text style={styles.textforgotpassword}>Forgot Password?</Text>
 
@@ -51,11 +66,11 @@ const Login = props => {
           title="LOGIN" 
           onPress={signIn} 
         />
-        <Text style={styles.graytext}>OR CONNECT WITH</Text>
+        <Text style={styles.graytext}>Don't have an account?</Text>
         <Button
           icon={
             <Icon
-              name="google"
+              name="sign-in"
               size={20}
               color='firebrick'
             />
@@ -66,7 +81,7 @@ const Login = props => {
             backgroundColor: 'white',
           }}
           onPress={() => 
-            navigation.navigate('Doctors')
+            navigation.navigate('SignUp')
           } 
         />
 
