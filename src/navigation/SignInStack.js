@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Doctors from '../screens/Doctors';
 import IndividualDoctor from '../screens/IndividualDoctor';
 import AddDoctor from '../screens/AddDoctor';
+import Login from '../screens/Login';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ export default function SignInStack() {
         <Stack.Screen name="Doctors" component={Doctors} />
         <Stack.Screen name="IndividualDoctor" component={IndividualDoctor} />
         <Stack.Screen name="AddDoctor" component={AddDoctor} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   )

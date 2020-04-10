@@ -18,17 +18,22 @@ import {
 } from 'react-native-elements';
 import * as firebase from 'firebase';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { AuthContext } from '../navigation/AuthNavigator';
 import Util from '../library/Util';
 
 const Doctors = props => {
   const database = firebase.database();
   const storage = firebase.storage();
   const navigation = useNavigation();
-  const user = useContext(AuthContext);
+  const [user, setUser] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
+
+  setUser(firebase.auth());
+
+  handleSignOut = () => {
+    firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
+  };
 
   useEffect(() => {
     var ref = database.ref("Doctors");
@@ -101,7 +106,7 @@ const Doctors = props => {
           )}
         />
       </View>
-      <Text style={styles.debugText}>{JSON.stringify(debugText)}</Text>
+      <Button title="Sign Out" onPress={handleSignOut} />
     </SafeAreaView>
   );
 }

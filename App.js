@@ -16,7 +16,8 @@ const theme = {
       borderRadius: 20,
       paddingLeft: 20,
       paddingRight: 20,
-      marginBottom: 10
+      marginBottom: 10,
+      marginTop: 10
     },
   },
   iconContainerStyle: {
@@ -24,7 +25,7 @@ const theme = {
   },
   ListItem: {
 
-  }
+  },  
 };
 
 const App = () => {

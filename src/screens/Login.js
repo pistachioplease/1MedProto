@@ -21,7 +21,6 @@ const Login = props => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
-
   async function signIn() {
     try {
       await firebase.auth().signInAnonymously()
@@ -118,7 +117,6 @@ const styles = StyleSheet.create({
     color: 'lightgray',
     fontSize: 10,
     textAlign: 'center',
-    marginBottom: 10
   },
   textforgotpassword: {
     color: 'lightgray',
