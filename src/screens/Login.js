@@ -21,19 +21,24 @@ const Login = props => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
-  async function signIn() {
-    try {
-      await firebase.auth().signInAnonymously()
-    } catch (e) {
-      switch (e.code) {
-        case 'auth/operation-not-allowed':
-          console.log('Enable anonymous in your firebase console.')
-          break
-        default:
-          console.error(e)
-          break
-      }
-    }
+  async function handleSignIn() {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => console.log("login"))
+      .catch(error => setErrorMessage({ msg: error.message }))
+    // try {
+    //   await firebase.auth().handleSignInAnonymously()
+    // } catch (e) {
+    //   switch (e.code) {
+    //     case 'auth/operation-not-allowed':
+    //       console.log('Enable anonymous in your firebase console.')
+    //       break
+    //     default:
+    //       console.error(e)
+    //       break
+    //   }
+    // }
   }
 
   return (
@@ -41,29 +46,27 @@ const Login = props => {
       <View style={styles.logocontainer}>
         <Image source={require('./../../assets/logo.png')} style={styles.logo} />
       </View>
-      <View style={[styles.formcontainer, styles.debugBox]}>
+      <View style={[styles.formcontainer]}>
         {errorMessage &&
-          <Text style={{ color: 'red' }}>
-            {errorMessage}
+          <Text style={{ color: 'red', fontStyle: 'italic', }}>
+            {errorMessage.msg}
           </Text>}
         <Input
           autoCapitalize="none"
           placeholder="Email"
-          onChangeText={email => this.setState({ email })}
-          value={email}
+          onChangeText={email => setEmail(email)}
         />
         <Input
           secureTextEntry
           autoCapitalize="none"
           placeholder="Password"
-          onChangeText={password => this.setState({ password })}
-          value={password}
+          onChangeText={password => setPassword(password)}
         />
         <Text style={styles.textforgotpassword}>Forgot Password?</Text>
 
         <Button
           title="LOGIN" 
-          onPress={signIn} 
+          onPress={handleSignIn} 
         />
         <Text style={styles.graytext}>Don't have an account?</Text>
         <Button

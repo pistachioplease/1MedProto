@@ -25,7 +25,7 @@ const SignUp = props => {
 
   handleSignUp = () => {
     // setText(email);
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => navigation.navigate('Doctors')).catch(error => setErrorMessage({ msg: error.message }));
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => console.log("login")).catch(error => setErrorMessage({ msg: error.message }));
   }
 
   return (

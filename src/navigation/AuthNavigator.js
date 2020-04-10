@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import Splash from '../screens/Splash';
 import SignInStack from './SignInStack';
 import SignOutStack from './SignOutStack';
@@ -17,6 +17,8 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+export const AuthContext = createContext (null);
 
 export default function AuthNavigator() {
   const [initializing, setInitializing] = useState(true);
@@ -40,7 +42,9 @@ export default function AuthNavigator() {
   }
 
   return user ? (
-    <SignInStack />
+    <AuthContext.Provider value={user}>
+      <SignInStack />
+    </AuthContext.Provider>
   ) : (
     <SignOutStack />
   );
