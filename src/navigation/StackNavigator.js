@@ -12,7 +12,7 @@ import {
   Text,
   Icon,
 } from 'react-native-elements';
-
+import BottomTabs from './BottomTabs';
 import Doctors from '../screens/Doctors';
 import IndividualDoctor from '../screens/IndividualDoctor';
 import AddDoctor from '../screens/AddDoctor';
@@ -38,14 +38,11 @@ export default function StackNavigator() {
     )
   };
 
-  //<Stack.Screen
-    //    name="FeedList"
-        //component={BottomTabs}
-      ///>
+  
 
   return (
     <Stack.Navigator 
-      initialRouteName="Doctors" 
+      initialRouteName="Tabs" 
       headerMode="screen"
       screenOptions={{
         headerStyle: {
@@ -58,6 +55,10 @@ export default function StackNavigator() {
         headerLeft: MenuButton,
       }}
     >
+      <Stack.Screen
+       name="Tabs"
+        component={BottomTabs}
+      />
       <Stack.Screen 
         name="Doctors" 
         component={Doctors} 
@@ -65,7 +66,6 @@ export default function StackNavigator() {
       />
       <Stack.Screen name="IndividualDoctor" component={IndividualDoctor} />
       <Stack.Screen name="AddDoctor" component={AddDoctor} />
-      
     </Stack.Navigator>
   )
 };
