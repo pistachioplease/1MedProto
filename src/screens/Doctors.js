@@ -31,7 +31,7 @@ const Doctors = props => {
 
   const user = useContext(AuthContext);
 
-  handleSignOut = () => {
+  function handleSignOut() {
     firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
   };
 
