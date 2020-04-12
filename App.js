@@ -3,6 +3,7 @@ import React from 'react';
 import { 
   ThemeProvider
 } from 'react-native-elements';
+import { NavigationContainer } from '@react-navigation/native';
 import AuthNavigator from './src/navigation/AuthNavigator';
 
 const theme = {
@@ -31,7 +32,9 @@ const theme = {
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-       <AuthNavigator />
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
     </ThemeProvider>
   );  
 };

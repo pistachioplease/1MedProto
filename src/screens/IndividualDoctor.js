@@ -50,7 +50,7 @@ const IndividualDoctor = props => {
   ];
 
   return (
-    <SafeAreaView style={[individualdoctorstyle.container]}>
+    <View style={[individualdoctorstyle.container]}>
       <ListItem
         title={userName}
         titleStyle={{ fontWeight: 'bold', fontSize: 24 }}
@@ -65,7 +65,7 @@ const IndividualDoctor = props => {
       />
       <Calendly />
       
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -75,7 +75,6 @@ const individualdoctorstyle = StyleSheet.create({
   container: { 
     flex: 1,
     padding: 10,
-    margin: 10,
   },
   subtitleView: {
     marginBottom: 20,

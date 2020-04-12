@@ -79,9 +79,8 @@ const Doctors = props => {
   */
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.welcomeText}>User ID: {user.email}</Text>
-      <Text style={styles.screentitle}>Doctors Available</Text>
     
       <View style={styles.listcontainer}>
         <FlatList
@@ -107,7 +106,7 @@ const Doctors = props => {
         />
       </View>
       <Button title="Sign Out" onPress={handleSignOut} />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -138,14 +137,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   welcomeText: {
-    marginTop: 10
   },
-  screentitle: {
-    color: 'slategray',
-    fontSize: 18,
-    textAlign: 'center',    
-  },
-
+  
   debugBox: {
     borderColor: 'pink',
     borderWidth: 1
