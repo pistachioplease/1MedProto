@@ -3,7 +3,7 @@ import React from 'react';
 import { 
   ThemeProvider
 } from 'react-native-elements';
-import AuthNavigator from './src/navigation/AuthNavigator'
+import AuthNavigator from './src/navigation/AuthNavigator';
 
 const theme = {
   colors: {
