@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { 
   StyleSheet,
-  View,
+  View
 } from 'react-native';
 import {
   DrawerItem,
@@ -13,11 +13,19 @@ import {
   Button
 } from 'react-native-elements';
 import * as firebase from 'firebase';
+import Util from '../library/Util';
 
 
 function DrawerContent(props) {
   function handleSignOut() {
-    firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        Util.removeItemValue("userData");
+        console.log("logout:");
+      })
+      .catch(error => console.log(error));
   };
 
   return (

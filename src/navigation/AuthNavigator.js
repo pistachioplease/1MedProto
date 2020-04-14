@@ -27,6 +27,7 @@ export default function AuthNavigator() {
   // Handle user state changes
   function onAuthStateChanged(result) {
     setUser(result);
+
     if (initializing) setInitializing(false);
   }
 

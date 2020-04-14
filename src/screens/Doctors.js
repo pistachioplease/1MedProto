@@ -19,7 +19,7 @@ import {
 import * as firebase from 'firebase';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Util from '../library/Util';
-import { AuthContext } from '../navigation/AuthNavigator';
+// import { AuthContext } from '../navigation/AuthNavigator';
 
 const Doctors = props => {
   const database = firebase.database();
@@ -29,7 +29,7 @@ const Doctors = props => {
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
 
-  const user = useContext(AuthContext);
+  const user = Util.getUser();
 
   function handleSignOut() {
     firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
@@ -70,6 +70,7 @@ const Doctors = props => {
   )};
 
   /*
+      <Text style={styles.welcomeText}>User ID: {user.email}</Text>
  <Button
     title="Add Doctor" 
     onPress={() => {
@@ -80,7 +81,6 @@ const Doctors = props => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>User ID: {user.email}</Text>
     
       <View style={styles.listcontainer}>
         <FlatList

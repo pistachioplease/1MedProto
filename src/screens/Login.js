@@ -20,25 +20,16 @@ const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
-
+  
   async function handleSignIn() {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => console.log("login"))
+      .then(res => {
+        // console.log(JSON.stringify(res.user));
+         Util.storeUser(res.user);
+       })
       .catch(error => setErrorMessage({ msg: error.message }))
-    // try {
-    //   await firebase.auth().handleSignInAnonymously()
-    // } catch (e) {
-    //   switch (e.code) {
-    //     case 'auth/operation-not-allowed':
-    //       console.log('Enable anonymous in your firebase console.')
-    //       break
-    //     default:
-    //       console.error(e)
-    //       break
-    //   }
-    // }
   }
 
   return (

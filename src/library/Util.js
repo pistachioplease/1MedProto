@@ -1,3 +1,7 @@
+import { 
+  AsyncStorage,
+} from 'react-native';
+
 const jobTitles = [
   "Internal Medicine",
   "Pediatrician",
@@ -25,6 +29,40 @@ class Util {
       return v.toString(16);
     });
   }
+
+  async storeUser(user) {
+    try {
+      await AsyncStorage.setItem("userData", JSON.stringify(user));
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+  async getUser() {
+    try {
+      let userData = await AsyncStorage.getItem("userData");
+      let data = JSON.parse(userData);
+      // console.log(data);
+
+      return data;
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
+  async removeItemValue(key) {
+    try {
+      await AsyncStorage.removeItem(key);
+      let data = await AsyncStorage.getItem(key);
+      let parsed = JSON.parse(data);
+      console.log(data);
+      
+      return true;
+    }
+    catch(exception) {
+      return false;
+    }
+  } 
+
 }
 
 const U = new Util();
