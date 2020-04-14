@@ -26,9 +26,8 @@ const Login = props => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(res => {
-        // console.log(JSON.stringify(res.user));
-         Util.storeUser(res.user);
-       })
+        Util.storeUser(res.user);
+      })
       .catch(error => setErrorMessage({ msg: error.message }))
   }
 

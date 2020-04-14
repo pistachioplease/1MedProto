@@ -6,7 +6,8 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  FlatList
+  FlatList,
+  AsyncStorage
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { 
@@ -19,7 +20,7 @@ import {
 import * as firebase from 'firebase';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Util from '../library/Util';
-// import { AuthContext } from '../navigation/AuthNavigator';
+import { AuthContext } from '../navigation/AuthNavigator';
 
 const Doctors = props => {
   const database = firebase.database();
@@ -29,37 +30,56 @@ const Doctors = props => {
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
 
-  const user = Util.getUser();
+  const user = useContext(AuthContext);
 
   function handleSignOut() {
     firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
   };
 
-  useEffect(() => {
-    var ref = database.ref("Doctors");
-    ref.on('value', snapshot => {
-      var returnArray = [];
 
-      snapshot.forEach(function(snap) {
-        let newImageUrl = "";
-        // storage.refFromURL(snap.val().imageUrl).getDownloadURL().then(function(url) {
-        //   newImageUrl = url;
-        // }).catch(function(error) {
-        //   // Handle any errors
-        // });
+  async function getDoctors() {
+    try {
+      let doctorsFromAS = await AsyncStorage.getItem('doctors'); 
 
-        var item = snap.val();
-        item.key = snap.key;
-        // item.imageUrl = newImageUrl;
+      if (doctorsFromAS == null){
+        console.log("load from DB");
+        let ref = database.ref("Doctors");
+        ref.on('value', snapshot => {
+          let returnArray = [];
 
-        returnArray.push(item);
-      });
+          snapshot.forEach(function(snap) {
+            let newImageUrl = "";
+            // storage.refFromURL(snap.val().imageUrl).getDownloadURL().then(function(url) {
+            //   newImageUrl = url;
+            // }).catch(function(error) {
+            //   // Handle any errors
+            // });
 
-      setData(returnArray);
-      // setDebugText(returnArray);
-      setLoading(false);
-    });
+            let item = snap.val();
+            item.key = snap.key;
+            // item.imageUrl = newImageUrl;
+
+            returnArray.push(item);
+          });
+
+          setData(returnArray);
+          Util.storeDoctors(returnArray);
+          setLoading(false);
+        });
+      } else {
+        console.log("load from AsyncStorage");
+        let doctors = JSON.parse(doctorsFromAS);
+        setData(doctors);
+        setLoading(false);
+      }
       
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
+  useEffect(() => {
+    getDoctors();      
   }, []);
 
   if(isLoading){
@@ -70,7 +90,6 @@ const Doctors = props => {
   )};
 
   /*
-      <Text style={styles.welcomeText}>User ID: {user.email}</Text>
  <Button
     title="Add Doctor" 
     onPress={() => {
@@ -81,7 +100,7 @@ const Doctors = props => {
 
   return (
     <View style={styles.container}>
-    
+      <Text style={styles.welcomeText}>User ID: {user.email}</Text>
       <View style={styles.listcontainer}>
         <FlatList
           data={data}

@@ -49,13 +49,22 @@ class Util {
     }
   }
 
+  async storeDoctors(doctors) {
+    try {
+      await AsyncStorage.setItem("doctors", JSON.stringify(doctors));
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
+
   async removeItemValue(key) {
     try {
       await AsyncStorage.removeItem(key);
       let data = await AsyncStorage.getItem(key);
       let parsed = JSON.parse(data);
       console.log(data);
-      
+
       return true;
     }
     catch(exception) {

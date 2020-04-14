@@ -15,25 +15,28 @@ import {
 import * as firebase from 'firebase';
 import Util from '../library/Util';
 
+const DrawerContent = props => {
+  // const [user, setUser] = useState('');
 
-function DrawerContent(props) {
   function handleSignOut() {
     firebase
       .auth()
       .signOut()
       .then(() => {
         Util.removeItemValue("userData");
-        console.log("logout:");
+        console.log("logout");
       })
       .catch(error => console.log(error));
   };
+
+  // setUser(Util.getUser());
+          // <Text h4>{Util.capitalize(user.name.first) +" "+ Util.capitalize(user.name.last)}</Text>
 
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.drawerContent}>
         <View style={styles.userInfoSection}>
           <Avatar rounded title="MD" />
-          <Text h4>Test User</Text>
           <Text style={styles.caption}>angbagongako@gmail.com</Text>
         </View>
         <View style={styles.userInfoSection}>
