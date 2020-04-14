@@ -10,14 +10,17 @@ export default function BottomTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Doctors"
-      activeColor="#e91e63"
-      style={{ backgroundColor: 'tomato' }}
+      tabBarOptions={{
+        activeTintColor: '#e91e63',
+        style: { backgroundColor: 'dimgray' }
+      }}
     >
       <Tab.Screen
         name="Doctors"
         component={Doctors}
         options={{
           tabBarLabel: 'Home',
+          tabBarColor: 'dimgray',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -26,10 +29,12 @@ export default function BottomTabs() {
       <Tab.Screen
         name="IndividualDoctor"
         component={IndividualDoctor}
+        headerTitle='Doctors Available'
         options={{
-          tabBarLabel: 'Updates',
+          tabBarLabel: 'Chat',
+          tabBarColor: 'dimgray',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            <MaterialCommunityIcons name="chat" color={color} size={26} />
           ),
         }}
       />

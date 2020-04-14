@@ -26,28 +26,6 @@ const IndividualDoctor = props => {
 
   const {userData}= route.params; 
   const userName = Util.capitalize(userData.name.first) +" "+ Util.capitalize(userData.name.last);
-  const list = [
-    {
-      title: 'QUICK CONSULTATION',
-      subtitle: 'We will call you at a set time!',
-      colors: ['darkorange', 'orange']
-    },
-    {
-      title: 'CONSULTATION',
-      subtitle: 'Virtual Meeting with your physician (30 min)',
-      colors: ['lightcoral', 'crimson']
-    },
-    {
-      title: 'EXTEND CONSULTATION',
-      subtitle: 'Virtual Meeting with your physician (60 min)',
-      colors: ['darkgreen', 'green']
-    },
-    {
-      title: 'MEET & GREET',
-      subtitle: 'Introductory Meeting with your physician',
-      colors: ['deepskyblue', 'dodgerblue']
-    },
-  ];
 
   return (
     <View style={[individualdoctorstyle.container]}>
@@ -97,24 +75,3 @@ const individualdoctorstyle = StyleSheet.create({
     marginBottom: 10,
   }
 });
-
-// <View>
-//         {
-//           list.map((item, i) => (
-//             <ListItem style={individualdoctorstyle.buttons}
-//               key={i}
-//               title={item.title}
-//               subtitle={item.subtitle}
-//               titleStyle={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}
-//               subtitleStyle={{ textAlign: 'center', color: 'white', fontSize: 12, fontStyle: 'italic' }}
-//               linearGradientProps={{
-//                 colors: item.colors,
-//                 start: [1, 0],
-//                 end: [0.2, 0],
-//               }}
-//               bottomDivider
-//               chevron
-//             />
-//           ))
-//         }
-//       </View>

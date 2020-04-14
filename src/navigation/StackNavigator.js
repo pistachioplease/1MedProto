@@ -56,15 +56,26 @@ export default function StackNavigator() {
       }}
     >
       <Stack.Screen
-       name="Tabs"
+        name="Tabs"
         component={BottomTabs}
+        options={({ route }) => {
+          console.log('!@# options', { route });
+          const routeName = route.state
+            ? '' 
+            : 'Doctors Available';
+          // route.state.routes[route.state.index].name
+          return { headerTitle: routeName };
+        }}
       />
       <Stack.Screen 
         name="Doctors" 
         component={Doctors} 
         options={{ headerTitle: 'Doctors Available' }}
       />
-      <Stack.Screen name="IndividualDoctor" component={IndividualDoctor} />
+      <Stack.Screen 
+        name="IndividualDoctor" 
+        component={IndividualDoctor} 
+        />
       <Stack.Screen name="AddDoctor" component={AddDoctor} />
     </Stack.Navigator>
   )
