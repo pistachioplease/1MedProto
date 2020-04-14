@@ -16,6 +16,7 @@ import BottomTabs from './BottomTabs';
 import Doctors from '../screens/Doctors';
 import IndividualDoctor from '../screens/IndividualDoctor';
 import AddDoctor from '../screens/AddDoctor';
+import Chats from '../screens/Chats';
 
 const Stack = createStackNavigator();
 
@@ -77,6 +78,7 @@ export default function StackNavigator() {
         component={IndividualDoctor} 
         />
       <Stack.Screen name="AddDoctor" component={AddDoctor} />
+      <Stack.Screen name="Chats" component={Chats}  />
     </Stack.Navigator>
   )
 };

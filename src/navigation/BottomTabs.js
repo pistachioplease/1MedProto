@@ -2,7 +2,7 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Doctors from '../screens/Doctors';
-import IndividualDoctor from '../screens/IndividualDoctor';
+import Chats from '../screens/Chats';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -27,9 +27,8 @@ export default function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="IndividualDoctor"
-        component={IndividualDoctor}
-        headerTitle='Doctors Available'
+        name="Chats"
+        component={Chats}
         options={{
           tabBarLabel: 'Chat',
           tabBarColor: 'dimgray',
