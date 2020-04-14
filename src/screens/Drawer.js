@@ -10,10 +10,16 @@ import {
 import { 
   Avatar,
   Text,
+  Button
 } from 'react-native-elements';
+import * as firebase from 'firebase';
 
 
 function DrawerContent(props) {
+  function handleSignOut() {
+    firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
+  };
+
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.drawerContent}>
@@ -21,6 +27,9 @@ function DrawerContent(props) {
           <Avatar rounded title="MD" />
           <Text h4>Test User</Text>
           <Text style={styles.caption}>angbagongako@gmail.com</Text>
+        </View>
+        <View style={styles.userInfoSection}>
+          <Button title="Sign Out" onPress={handleSignOut} />
         </View>
       </View>
     </DrawerContentScrollView>
@@ -32,9 +41,10 @@ export default DrawerContent;
 const styles = StyleSheet.create({
   drawerContent: {
     flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   userInfoSection: {
-    paddingLeft: 20,
   },
   title: {
     marginTop: 20,

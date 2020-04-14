@@ -105,7 +105,6 @@ const Doctors = props => {
           )}
         />
       </View>
-      <Button title="Sign Out" onPress={handleSignOut} />
     </View>
   );
 }
