@@ -3,6 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Doctors from '../screens/Doctors';
 import Chats from '../screens/Chats';
+import Appointments from '../screens/Appointments';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -23,6 +24,17 @@ export default function BottomTabs() {
           tabBarColor: 'dimgray',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Appointments"
+        component={Appointments}
+        options={{
+          tabBarLabel: 'Appointments',
+          tabBarColor: 'dimgray',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="calendar" color={color} size={26} />
           ),
         }}
       />
