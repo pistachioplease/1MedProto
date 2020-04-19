@@ -5,6 +5,11 @@ import PaymentFormView from './PaymentFormView';
 /**
  * The class renders a view with PaymentFormView
  */
+/*
+ <KeyboardSpacer
+          onToggle={() => { setTimeout(() => this.scrollViewRef.scrollToEnd({ animated: true }),0)} }
+        />
+*/
 export default class AddSubscriptionView extends React.Component {
   render() {
     return (
@@ -25,9 +30,7 @@ export default class AddSubscriptionView extends React.Component {
           </View>
         </ScrollView>
         {/* Scrolls to the payment form */}
-        <KeyboardSpacer
-          onToggle={() => { setTimeout(() => this.scrollViewRef.scrollToEnd({ animated: true }),0)} }
-        />
+       
       </View>
     );
   }
