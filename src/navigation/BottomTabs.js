@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Doctors from '../screens/Doctors';
 import Chats from '../screens/Chats';
 import Appointments from '../screens/Appointments';
+import AddSubscription from '../screens/AddSubscription';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -35,6 +36,17 @@ export default function BottomTabs() {
           tabBarColor: 'dimgray',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="calendar" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Subscription"
+        component={AddSubscription}
+        options={{
+          tabBarLabel: 'Subscription',
+          tabBarColor: 'dimgray',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="credit-card" color={color} size={26} />
           ),
         }}
       />

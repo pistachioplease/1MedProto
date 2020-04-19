@@ -17,11 +17,11 @@ import Doctors from '../screens/Doctors';
 import IndividualDoctor from '../screens/IndividualDoctor';
 import AddDoctor from '../screens/AddDoctor';
 import Chats from '../screens/Chats';
+import AddSubscription from '../screens/AddSubscription';
 
 const Stack = createStackNavigator();
 
-
-export default function StackNavigator() {
+const StackNavigator = () => {
   const navigation = useNavigation();
   
   function MenuButton() {
@@ -38,8 +38,6 @@ export default function StackNavigator() {
       </View>
     )
   };
-
-  
 
   return (
     <Stack.Navigator 
@@ -78,7 +76,10 @@ export default function StackNavigator() {
         component={IndividualDoctor} 
         />
       <Stack.Screen name="AddDoctor" component={AddDoctor} />
-      <Stack.Screen name="Chats" component={Chats}  />
+      <Stack.Screen name="Chats" component={Chats} />
+      <Stack.Screen name="AddSubscription" component={AddSubscription} />
     </Stack.Navigator>
   )
 };
+
+export default StackNavigator;

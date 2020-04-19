@@ -7,6 +7,7 @@ import {
   DrawerItem,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
 import { 
   Avatar,
   Text,
@@ -15,8 +16,15 @@ import {
 import * as firebase from 'firebase';
 import Util from '../library/Util';
 
+// const navigation = useNavigation(); // causes invariant hook call warning
+
 const DrawerContent = props => {
   // const [user, setUser] = useState('');
+           /*<TouchableOpacity        
+              onPress={() => navigation.navigate('AddSubscription')}
+            >
+              <Text>Payment</Text>
+            </TouchableOpacity>*/
 
   function handleSignOut() {
     firebase
@@ -38,6 +46,8 @@ const DrawerContent = props => {
         <View style={styles.userInfoSection}>
           <Avatar rounded title="MD" />
           <Text style={styles.caption}>angbagongako@gmail.com</Text>
+        </View>
+        <View style={styles.userInfoSection}>
         </View>
         <View style={styles.userInfoSection}>
           <Button title="Sign Out" onPress={handleSignOut} />

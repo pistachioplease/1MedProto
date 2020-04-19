@@ -20,9 +20,10 @@ import {
 import * as firebase from 'firebase';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Util from '../library/Util';
-import { AuthContext } from '../navigation/AuthNavigator';
+import { AuthContext } from '../navigation/AuthContext';
 
 const Doctors = props => {
+  const user = useContext(AuthContext); 
   const database = firebase.database();
   const storage = firebase.storage();
   const navigation = useNavigation();
@@ -30,12 +31,10 @@ const Doctors = props => {
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
 
-  const user = useContext(AuthContext);
-
   function handleSignOut() {
     firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
   };
-
+  //handleSignOut();
 
   async function getDoctors() {
     try {

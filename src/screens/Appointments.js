@@ -14,14 +14,13 @@ import {
   ListItem
 } from 'react-native-elements';
 import * as firebase from 'firebase';
-import { AuthContext } from '../navigation/AuthNavigator';
+import { AuthContext } from '../navigation/AuthContext';
 
 const Appointments = props => {
+  const user = useContext(AuthContext);
   const database = firebase.database();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-
-  const user = useContext(AuthContext);
 
   const showAlert = () =>{
     Alert.alert(
