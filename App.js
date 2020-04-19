@@ -30,6 +30,8 @@ const theme = {
 };
 
 const App = () => {
+  console.ignoredYellowBox = ['Setting a timer'];
+  
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>

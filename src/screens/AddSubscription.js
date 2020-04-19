@@ -1,5 +1,5 @@
 import React from 'react';
-import AddSubscriptionView from '../components/AddSubscriptionView'; // TODO
+import AddSubscriptionView from '../components/AddSubscriptionView'; 
 const STRIPE_ERROR = 'Payment service error. Try again later.';
 const SERVER_ERROR = 'Server error. Try again later.';
 const STRIPE_PUBLISHABLE_KEY = 'pk_test_ImKdtYtG6wkJdPkhPDDSyt1o';

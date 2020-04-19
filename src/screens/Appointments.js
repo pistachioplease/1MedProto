@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react';
 import { 
   StyleSheet, 
   Text, 
@@ -14,6 +14,7 @@ import {
   ListItem
 } from 'react-native-elements';
 import * as firebase from 'firebase';
+import Anchor from '../components/Anchor'; 
 import { AuthContext } from '../navigation/AuthContext';
 
 const Appointments = props => {
@@ -72,10 +73,11 @@ const Appointments = props => {
       </View>
   )};
 
-      // <Text>{JSON.stringify(data)}</Text>
+        //<Anchor style={styles.anchor} href="lyft://ridetype?id=lyft&pickup[latitude]=37.764728&pickup[longitude]=-122.422999&destination[latitude]=37.7763592&destination[longitude]=-122.4242038">Launch Zoom</Anchor>
   return (
     <View style={styles.container}>
       <View style={styles.listcontainer}>
+        <Anchor style={styles.anchor} href="zoomus://">Launch Zoom</Anchor>
         <FlatList
           data={data}
           renderItem={({ item }) => (
@@ -114,4 +116,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     justifyContent: 'flex-start'
   },
+  anchor: {
+    backgroundColor: 'firebrick',
+    borderRadius: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginBottom: 10,
+    marginTop: 10
+  }
 });

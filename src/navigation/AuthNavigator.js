@@ -10,8 +10,7 @@ import Firebase from '../library/Firebase';
 
 const AuthNavigator = () => {
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState(null);
-  console.ignoredYellowBox = ['Setting a timer'];
+  const [user, setUser] = useState(null);  
 
   // Handle user state changes
   function onAuthStateChanged(result) {
