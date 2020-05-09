@@ -11,33 +11,18 @@ import {
   AsyncStorage
 } from 'react-native';
 import { 
-  ListItem
+  ListItem,
+  Icon
 } from 'react-native-elements';
 import * as firebase from 'firebase';
-import Anchor from '../components/Anchor'; 
 import { AuthContext } from '../navigation/AuthContext';
+import { Linking } from 'expo';
 
 const Appointments = props => {
   const user = useContext(AuthContext);
   const database = firebase.database();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-
-  const showAlert = () =>{
-    Alert.alert(
-      '',
-      'This will open zoom app to start the appointment.',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ],
-      {cancelable: false},
-    );
-  };
 
   async function getAppointments() {
     let ref = database.ref("Appointments");
@@ -73,11 +58,13 @@ const Appointments = props => {
       </View>
   )};
 
-        //<Anchor style={styles.anchor} href="lyft://ridetype?id=lyft&pickup[latitude]=37.764728&pickup[longitude]=-122.422999&destination[latitude]=37.7763592&destination[longitude]=-122.4242038">Launch Zoom</Anchor>
+  //<Anchor style={styles.anchor} href="zoomus://">Launch Zoom</Anchor>
   return (
     <View style={styles.container}>
+      <View style={styles.helpbox}>
+        <Icon raised size={11} name='angle-right' type='font-awesome' color='black' /><Text style={styles.helptext}>Tap on listing to launch appointment</Text>
+      </View>
       <View style={styles.listcontainer}>
-        <Anchor style={styles.anchor} href="zoomus://">Launch Zoom</Anchor>
         <FlatList
           data={data}
           renderItem={({ item }) => (
@@ -85,8 +72,8 @@ const Appointments = props => {
               title={item.EventTypeName +" ("+ item.EventAssignedTo +") "}
               subtitle={item.EventStartTimePretty}
               bottomDivider
-              chevron
-              onPress={showAlert}
+              rightIcon={{ name: 'angle-right', type: 'font-awesome', style: { marginRight: 10, fontSize: 24 } }}
+              onPress={() => Linking.openURL(item.EventLocation)}
             />
           )}
         />
@@ -101,7 +88,23 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1,
     padding: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  helpbox: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'stretch', 
+    backgroundColor: 'gainsboro',
+    borderRadius: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  helptext: {
+    color: 'slategray',
+    fontStyle: 'italic',
+    fontSize: 12,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   loader:{
     flex: 1,
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
   listcontainer: {
-    flex: 1,
+    flex: 13,
     width: "100%",
     flexDirection: 'column',
     marginTop: 10,

@@ -3,8 +3,6 @@ import { Text } from 'react-native';
 import { Linking } from 'expo';
 import AppLink from 'react-native-app-link';
 
-
-
 export default class Anchor extends React.Component {
   _handlePress = () => {
     // Linking.openURL(this.props.href);
