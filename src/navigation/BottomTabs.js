@@ -5,6 +5,7 @@ import Doctors from '../screens/Doctors';
 import Chats from '../screens/Chats';
 import Appointments from '../screens/Appointments';
 import AddSubscription from '../screens/AddSubscription';
+import SubscriptionList from '../screens/SubscriptionList';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -40,13 +41,13 @@ export default function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="Subscription"
-        component={AddSubscription}
+        name="SubscriptionList"
+        component={SubscriptionList}
         options={{
-          tabBarLabel: 'Subscription',
+          tabBarLabel: 'Premium',
           tabBarColor: 'dimgray',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="credit-card" color={color} size={26} />
+            <MaterialCommunityIcons name="star-circle" color={color} size={26} />
           ),
         }}
       />

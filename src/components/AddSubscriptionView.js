@@ -15,16 +15,6 @@ export default class AddSubscriptionView extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} ref={ref => (this.scrollViewRef = ref)}>
-          <View style={styles.textWrapper}>
-            <Text style={styles.infoText}>
-              Subscribe to a plan.
-            </Text>
-          </View>
-          <View style={styles.textWrapper}>
-            <Text style={styles.infoText}>
-              Subscription Plan: $10/month
-            </Text>
-          </View>
           <View style={styles.cardFormWrapper}>
             <PaymentFormView {...this.props}/>
           </View>

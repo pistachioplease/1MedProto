@@ -2,7 +2,7 @@ import React from 'react';
 import AddSubscriptionView from '../components/AddSubscriptionView'; 
 const STRIPE_ERROR = 'Payment service error. Try again later.';
 const SERVER_ERROR = 'Server error. Try again later.';
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_ImKdtYtG6wkJdPkhPDDSyt1o';
+const STRIPE_PUBLISHABLE_KEY = 'pk_live_4odXgPyioka2twZohkFCjFvT001mMHDjwy';
 
 /**
  * The method sends HTTP requests to the Stripe API.
@@ -98,7 +98,7 @@ export default class AddSubscription extends React.Component {
       this.setState({ submitted: false, error: SERVER_ERROR });
     } else {
       this.setState({ submitted: false, error: null });
-      navigation.navigate('Doctors');
+      // navigation.navigate('Doctors');
     }
   };
   
