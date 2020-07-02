@@ -1,8 +1,10 @@
 import React from 'react';
+import Util from '../library/Util';
 import AddSubscriptionView from '../components/AddSubscriptionView'; 
 const STRIPE_ERROR = 'Payment service error. Try again later.';
 const SERVER_ERROR = 'Server error. Try again later.';
-const STRIPE_PUBLISHABLE_KEY = 'pk_live_4odXgPyioka2twZohkFCjFvT001mMHDjwy';
+// const STRIPE_PUBLISHABLE_KEY = 'pk_live_4odXgPyioka2twZohkFCjFvT001mMHDjwy';
+const STRIPE_PUBLISHABLE_KEY = 'pk_test_RNCx0iM84WbGbWzHK1Dm4xeQ009seqqc5y';
 
 /**
  * The method sends HTTP requests to the Stripe API.
@@ -109,6 +111,8 @@ export default class AddSubscription extends React.Component {
     const { submitted, error } = this.state;
     console.log(this.props.route.params.planId);
     console.log(this.props.route.params.productId);
+    // TODO: pass email of log-inned user
+
     return (
         <AddSubscriptionView
           error={error}

@@ -37,7 +37,7 @@ const SubscriptionList = props => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-   fetch('http://1med.pistachioplease.com/products.php', {
+   fetch('http://1med.pistachioplease.com/plans', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
