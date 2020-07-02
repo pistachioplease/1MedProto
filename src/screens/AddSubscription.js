@@ -69,6 +69,8 @@ export default class AddSubscription extends React.Component {
       error: null
     }
   }
+  
+
   // Handles submitting the payment request
   onSubmit = async (creditCardInput) => {
     const { navigation } = this.props;
@@ -105,6 +107,8 @@ export default class AddSubscription extends React.Component {
   // render the subscription view component and pass the props to it
   render() {
     const { submitted, error } = this.state;
+    console.log(this.props.route.params.planId);
+    console.log(this.props.route.params.productId);
     return (
         <AddSubscriptionView
           error={error}

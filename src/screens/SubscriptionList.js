@@ -23,35 +23,50 @@ import Util from '../library/Util';
 import { AuthContext } from '../navigation/AuthContext';
 import AddSubscription from '../screens/AddSubscription';
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const SubscriptionList = props => {
   const user = useContext(AuthContext); 
   const database = firebase.database();
   const storage = firebase.storage();
   const navigation = useNavigation();
+
   const [isLoading, setLoading] = useState(true);
-  const data = [
-    {
-      name: 'Family Plan Yearly',
-      price: '$3,468.00 CAD / month',
-    },
-    {
-      name: 'Family Plan Monthly',
-      price: '$335.00 CAD / month',
-    },
-    {
-      name: '1Med Executive Plan Yearly',
-      price: '$2,388.00 CAD / month',
-    },
-    {
-      name: '1Med Executive Plan Monthly',
-      price: '$235.00 CAD / month',
-    },
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+   fetch('http://1med.pistachioplease.com/products.php', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      setData(json);
+    })
+    .catch((error) => console.error(error))
+    .finally(() => {
+      setLoading(false);
+    });
+  }, []);
+  
+
   const [debugText, setDebugText] = useState([]);
 
   function handleSignOut() {
     firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
   };
+
+  if(isLoading){
+    return( 
+      <View style={styles.loader}> 
+        <ActivityIndicator size="large" color="firebrick"/>
+      </View>
+  )};
 
   return (
     <View style={styles.container}>
@@ -61,15 +76,15 @@ const SubscriptionList = props => {
           data={data}
           renderItem={({ item }) => (
             <ListItem
-              title={item.price}
-              subtitle={item.name}
+              title={item.nickname}
+              subtitle={item.currency.toUpperCase() + " " + numberWithCommas((Math.round(item.unit_amount) / 100).toFixed(2)) + " / " + item.recurring.interval}
               bottomDivider
               chevron
               onPress={() => {
-                navigation.navigate('AddSubscription')}}
+                navigation.navigate('AddSubscription', {planId: item.id, productId: item.product})}}
             />
           )}
-        />
+        />     
       </View>
     </View>
   );
