@@ -41,7 +41,7 @@ const Doctors = props => {
       let doctorsFromAS = await AsyncStorage.getItem('doctors'); 
 
       if (doctorsFromAS == null){
-        console.log("load from DB");
+        // console.log("load from DB");
         let ref = database.ref("Doctors");
         ref.on('value', snapshot => {
           let returnArray = [];
@@ -66,7 +66,7 @@ const Doctors = props => {
           setLoading(false);
         });
       } else {
-        console.log("load from AsyncStorage");
+        // console.log("load from AsyncStorage");
         let doctors = JSON.parse(doctorsFromAS);
         setData(doctors);
         setLoading(false);

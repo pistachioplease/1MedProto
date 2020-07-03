@@ -11,6 +11,7 @@ import {
   Input,
 } from 'react-native-elements';
 import * as firebase from 'firebase';
+import Firebase from '../library/Firebase';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Util from '../library/Util';
@@ -26,7 +27,13 @@ const Login = props => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(res => {
+        // console.log(res.user);
+        // save on firebase
+        firebase.database().ref('Users/'+res.user.uid).set({
+          email: res.user.email
+        });
         Util.storeUser(res.user);
+        Util.storeEmail(email);
       })
       .catch(error => setErrorMessage({ msg: error.message }))
   }

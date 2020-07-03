@@ -1,6 +1,8 @@
 import { 
   AsyncStorage,
 } from 'react-native';
+import * as firebase from 'firebase';
+import Firebase from '../library/Firebase';
 
 const jobTitles = [
   "Internal Medicine",
@@ -49,6 +51,24 @@ class Util {
     }
   }
 
+  async storeEmail(email) {
+    try {
+      await AsyncStorage.setItem("emailData", email);
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+  async getEmail() {
+    try {
+      let emailData = await AsyncStorage.getItem("emailData");
+      let data = JSON.parse(emailData);
+
+      return data;
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
   async storeDoctors(doctors) {
     try {
       await AsyncStorage.setItem("doctors", JSON.stringify(doctors));
@@ -72,9 +92,9 @@ class Util {
     }
   } 
 
-  createCustomer(billingEmail) {
-    return fetch('/create-customer', {
-      method: 'post',
+  createCustomer(billingEmail, uid) {    
+    return fetch('http://1med.pistachioplease.com/create-customer', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -83,16 +103,25 @@ class Util {
       })
     })
       .then(response => {
-        console.log(response.json());
+        return response.json();
       })
       .then(result => {
         // result.customer.id is used to map back to the customer object
         // result.setupIntent.client_secret is used to create the payment method
+        // console.log(result);
+        let userRef = firebase.database().ref('Users/'+uid);
+        // JSON.stringify(result)
+        userRef.update({
+          customerId: result.customer.id,
+          customerInfo: result.customer
+        });
         return result;
+      }).catch((error) => {
+        console.log("error on creating customer: " + error);
       });
   }
 
-  createPaymentMethod(cardElement, customerId, priceId) {
+  async createPaymentMethod(cardElement, customerId, priceId) {
     // stripe = Stripe(publishableKey);
     stripe = Stripe("pk_test_RNCx0iM84WbGbWzHK1Dm4xeQ009seqqc5y");
     return stripe
@@ -115,8 +144,8 @@ class Util {
 
   createSubscription({ customerId, paymentMethodId, priceId }) {
     return (
-      fetch('/create-subscription', {
-        method: 'post',
+      fetch('http://1med.pistachioplease.com/create-subscription', {
+        method: 'POST',
         headers: {
           'Content-type': 'application/json',
         },
@@ -259,8 +288,8 @@ class Util {
     priceId
   ) {
     return (
-      fetch('/retry-invoice', {
-        method: 'post',
+      fetch('http://1med.pistachioplease.com/retry-invoice', {
+        method: 'POST',
         headers: {
           'Content-type': 'application/json',
         },
@@ -308,8 +337,8 @@ class Util {
   }
 
   cancelSubscription() {
-    return fetch('/cancel-subscription', {
-      method: 'post',
+    return fetch('http://1med.pistachioplease.com/cancel-subscription', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },

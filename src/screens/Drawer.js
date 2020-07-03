@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { 
   StyleSheet,
   View
@@ -37,7 +37,7 @@ const DrawerContent = props => {
       .catch(error => console.log(error));
   };
 
-  // setUser(Util.getUser());
+  // setUser();
           // <Text h4>{Util.capitalize(user.name.first) +" "+ Util.capitalize(user.name.last)}</Text>
 
   return (
@@ -45,7 +45,7 @@ const DrawerContent = props => {
       <View style={styles.drawerContent}>
         <View style={styles.userInfoSection}>
           <Avatar rounded title="MD" />
-          <Text style={styles.caption}>angbagongako@gmail.com</Text>
+          <Text style={styles.caption}></Text>
         </View>
         <View style={styles.userInfoSection}>
         </View>

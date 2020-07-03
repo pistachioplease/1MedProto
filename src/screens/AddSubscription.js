@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Util from '../library/Util';
 import AddSubscriptionView from '../components/AddSubscriptionView'; 
+import { AuthContext } from '../navigation/AuthContext';
 const STRIPE_ERROR = 'Payment service error. Try again later.';
 const SERVER_ERROR = 'Server error. Try again later.';
 // const STRIPE_PUBLISHABLE_KEY = 'pk_live_4odXgPyioka2twZohkFCjFvT001mMHDjwy';
@@ -42,16 +43,23 @@ const getCreditCardToken = (creditCardData) => {
 };
 
 /**
- * The method imitates a request to our server.
- *
+ * subscribe user
+ * 1) create Customer
+ * 2) create PaymentMethod
  * @param creditCardToken
  * @return {Promise<Response>}
  */
-const subscribeUser = (creditCardToken) => {
-  return new Promise((resolve) => {
-    console.log('Credit card token\n', creditCardToken);
+const subscribeUser = (creditCardToken, email, uid) => {
+  return new Promise((resolve, reject) => {
+    // console.log('Credit card token\n', creditCardToken);
+    // create customer
+    // console.log(email);
+    let customer = Util.createCustomer(email, uid);
     setTimeout(() => {
-      resolve({ status: true });
+      if (customer != null)
+          resolve();
+      else
+          reject();
     }, 1000)
   });
 };
@@ -61,21 +69,29 @@ const subscribeUser = (creditCardToken) => {
  * handles the response from Stripe.
  */
 export default class AddSubscription extends React.Component {
+  static contextType = AuthContext;
   static navigationOptions = {
     title: 'Subscription page',
   };
   constructor(props) {
     super(props);
+
     this.state = {
       submitted: false,
-      error: null
+      error: null,
+      user: null,
     }
   }
-  
+
+  componentDidMount() {
+    let userDetails = this.context;
+    this.setState({user: userDetails});
+  }
 
   // Handles submitting the payment request
   onSubmit = async (creditCardInput) => {
     const { navigation } = this.props;
+    const { user } = this.state;
     // Disable the Submit button after the request is sent
     this.setState({ submitted: true });
     let creditCardToken;
@@ -96,7 +112,7 @@ export default class AddSubscription extends React.Component {
     }
     // Send a request to your server with the received credit card token
     // TODO: send credit card token to firebase
-    const { error } = await subscribeUser(creditCardToken);
+    const { error } = await subscribeUser(creditCardToken, user.email, user.uid);
     // Handle any errors from your server
     if (error) {
       this.setState({ submitted: false, error: SERVER_ERROR });
@@ -108,10 +124,9 @@ export default class AddSubscription extends React.Component {
   
   // render the subscription view component and pass the props to it
   render() {
-    const { submitted, error } = this.state;
-    console.log(this.props.route.params.planId);
-    console.log(this.props.route.params.productId);
-    // TODO: pass email of log-inned user
+    const { submitted, error, user } = this.state;
+    // console.log(this.props.route.params.planId);
+    // console.log(this.props.route.params.productId);
 
     return (
         <AddSubscriptionView
