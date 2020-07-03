@@ -92,7 +92,7 @@ class Util {
     }
   } 
 
-  createCustomer(billingEmail, uid) {    
+  createCustomer(creditCardToken, billingEmail, uid, planId) {    
     return fetch('http://1med.pistachioplease.com/create-customer', {
       method: 'POST',
       headers: {
@@ -108,22 +108,25 @@ class Util {
       .then(result => {
         // result.customer.id is used to map back to the customer object
         // result.setupIntent.client_secret is used to create the payment method
-        // console.log(result);
         let userRef = firebase.database().ref('Users/'+uid);
         // JSON.stringify(result)
         userRef.update({
           customerId: result.customer.id,
           customerInfo: result.customer
         });
+        
+        // create payment method
+        this.createPaymentMethod(creditCardToken, result.customerId, planId)
         return result;
       }).catch((error) => {
         console.log("error on creating customer: " + error);
       });
   }
 
-  async createPaymentMethod(cardElement, customerId, priceId) {
+  createPaymentMethod(cardElement, customerId, priceId) {
     // stripe = Stripe(publishableKey);
     stripe = Stripe("pk_test_RNCx0iM84WbGbWzHK1Dm4xeQ009seqqc5y");
+    console.log('create payment method');
     return stripe
       .createPaymentMethod({
         type: 'card',
@@ -131,7 +134,7 @@ class Util {
       })
       .then((result) => {
         if (result.error) {
-          displayError(error);
+          // displayError(error);
         } else {
           createSubscription({
             customerId: customerId,
@@ -188,7 +191,7 @@ class Util {
         .catch((error) => {
           // An error has happened. Display the failure to the user here.
           // We utilize the HTML element we created.
-          showCardError(error);
+          //showCardError(error);
         })
     );
   }
