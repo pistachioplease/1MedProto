@@ -116,6 +116,7 @@ export default class AddSubscription extends React.Component {
     // Handle any errors from your server
     if (error) {
       this.setState({ submitted: false, error: SERVER_ERROR });
+      navigation.navigate('Doctors');
     } else {
       this.setState({ submitted: false, error: null });
       navigation.navigate('Doctors');
