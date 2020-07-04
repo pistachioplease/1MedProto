@@ -49,12 +49,12 @@ const getCreditCardToken = (creditCardData) => {
  * @param creditCardToken
  * @return {Promise<Response>}
  */
-const subscribeUser = (creditCardToken, email, uid, planId) => {
+const subscribeUser = (creditCardInput, email, uid, planId) => {
   return new Promise((resolve, reject) => {
     // console.log('Credit card token\n', creditCardToken);
     // create customer
     // console.log(email);
-    let customer = Util.createCustomer(creditCardToken, email, uid, planId);
+    let customer = Util.createCustomer(creditCardInput, email, uid, planId);
     setTimeout(() => {
       if (customer != null)
           resolve();
@@ -112,16 +112,16 @@ export default class AddSubscription extends React.Component {
     }
     // Send a request to your server with the received credit card token
     // TODO: send credit card token to firebase
-    const { error } = await subscribeUser(creditCardToken, user.email, user.uid, this.props.route.params.planId);
+    const { error } = await subscribeUser(creditCardInput, user.email, user.uid, this.props.route.params.planId);
     // Handle any errors from your server
     if (error) {
       this.setState({ submitted: false, error: SERVER_ERROR });
     } else {
       this.setState({ submitted: false, error: null });
-      // navigation.navigate('Doctors');
+      navigation.navigate('Doctors');
     }
   };
-  
+
   // render the subscription view component and pass the props to it
   render() {
     const { submitted, error, user } = this.state;

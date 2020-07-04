@@ -92,7 +92,7 @@ class Util {
     }
   } 
 
-  createCustomer(creditCardToken, billingEmail, uid, planId) {    
+  createCustomer(creditCardInput, billingEmail, uid, planId) {    
     return fetch('http://1med.pistachioplease.com/create-customer', {
       method: 'POST',
       headers: {
@@ -116,31 +116,41 @@ class Util {
         });
         
         // create payment method
-        this.createPaymentMethod(creditCardToken, result.customerId, planId)
+        // this.createPaymentMethod(creditCardInput, result.customerId, planId)
         return result;
       }).catch((error) => {
         console.log("error on creating customer: " + error);
       });
   }
 
-  createPaymentMethod(cardElement, customerId, priceId) {
-    // stripe = Stripe(publishableKey);
-    stripe = Stripe("pk_test_RNCx0iM84WbGbWzHK1Dm4xeQ009seqqc5y");
+  createPaymentMethod(creditCardInput, customerId, priceId) {
     console.log('create payment method');
-    return stripe
-      .createPaymentMethod({
-        type: 'card',
-        card: cardElement,
+
+    // create a payment method
+    fetch('http://1med.pistachioplease.com/create-payment-method', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          number: creditCardInput.values.number.replace(/ /g, ''),
+          exp_month: creditCardInput.values.expiry.split('/')[0],
+          exp_year: creditCardInput.values.expiry.split('/')[1],
+          cvc: creditCardInput.values.cvc,
+          customerId: customerId,
+        }),
       })
       .then((result) => {
         if (result.error) {
           // displayError(error);
+          console.log("[payment method error]");
         } else {
-          createSubscription({
-            customerId: customerId,
-            paymentMethodId: result.paymentMethod.id,
-            priceId: priceId,
-          });
+          console.log(result);   
+          // createSubscription({
+          //   customerId: customerId,
+          //   paymentMethodId: result.paymentMethod.id,
+          //   priceId: priceId,
+          // });
         }
       });
   }
