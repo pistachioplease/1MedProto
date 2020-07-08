@@ -18,6 +18,7 @@ import IndividualDoctor from '../screens/IndividualDoctor';
 import AddDoctor from '../screens/AddDoctor';
 import Chats from '../screens/Chats';
 import AddSubscription from '../screens/AddSubscription';
+import Subscription from '../screens/Subscription';
 
 const Stack = createStackNavigator();
 
@@ -41,7 +42,7 @@ const StackNavigator = () => {
 
   return (
     <Stack.Navigator 
-      initialRouteName="Tabs" 
+      initialRouteName="Subscription" 
       headerMode="screen"
       screenOptions={{
         headerStyle: {
@@ -78,6 +79,7 @@ const StackNavigator = () => {
       <Stack.Screen name="AddDoctor" component={AddDoctor} />
       <Stack.Screen name="Chats" component={Chats} />
       <Stack.Screen name="AddSubscription" component={AddSubscription} />
+      <Stack.Screen name="Subscription" component={Subscription} />
     </Stack.Navigator>
   )
 };
