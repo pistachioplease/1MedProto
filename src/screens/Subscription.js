@@ -23,7 +23,7 @@ const Subscription = props => {
   return (   
     <WebView 
       startInLoadingState={true}
-      source={{ uri: 'https://app.1med.ca/payment/' }}
+      source={{ uri: 'https://app.1med.ca/payment/?email=' + user.email }}
       renderLoading={() => {
         return loading();
       }}
