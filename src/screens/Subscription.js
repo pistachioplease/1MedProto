@@ -2,7 +2,10 @@ import React, { Component, useState, useContext } from 'react';
 import { 
   StyleSheet,
   View,
-  ActivityIndicator
+  SafeAreaView,
+  ActivityIndicator,
+  TouchableOpacity,
+  Text
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { WebView } from 'react-native-webview';
@@ -22,16 +25,20 @@ const Subscription = props => {
   }
 
   return (   
-    <WebView 
-      startInLoadingState={true}
-      source={{ uri: 'https://app.1med.ca/payment/?email=' + user.email }}
-      renderLoading={loadingIndicator}
-    />
-    <View style={styles.tabBarContainer}>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Doctors")}>
-        <Text style={{ color: "green" }}>Exit</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.flexContainer}>
+      <WebView 
+        startInLoadingState={true}
+        source={{ uri: 'https://app.1med.ca/payment/?email=' + user.email }}
+        renderLoading={() => {
+          return loadingIndicator();
+        }}
+      />
+      <View style={styles.tabBarContainer}>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Doctors")}>
+          <Text style={{ color: "firebrick" }}>Exit</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 
 }
@@ -45,12 +52,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
+  flexContainer: {
+    flex: 1,
+  },
   tabBarContainer: {
     backgroundColor: "#d3d3d3",
     height: 56,
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: 16,
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
 });
