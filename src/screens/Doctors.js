@@ -88,14 +88,7 @@ const Doctors = props => {
       </View>
   )};
 
-  /*
- <Button
-    title="Add Doctor" 
-    onPress={() => {
-      navigation.navigate('AddDoctor');
-    }}
-  />
-  */
+  // check if user has subscription
 
   return (
     <View style={styles.container}>
