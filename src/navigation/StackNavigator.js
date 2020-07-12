@@ -53,9 +53,45 @@ const StackNavigator = () => {
     )
   };
 
+  /*const subscribeUser = (creditCardInput, email, uid, planId) => {
+    return new Promise((resolve, reject) => {
+      // console.log('Credit card token\n', creditCardToken);
+      // create customer
+      // console.log(email);
+      let customer = Util.createCustomer(creditCardInput, email, uid, planId);
+      setTimeout(() => {
+        if (customer != null)
+            resolve();
+        else
+            reject();
+      }, 1000)
+    });
+  };
+  async function getSubscription() {
+    return (
+      fetch('http://app.1med.ca/subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerId: customerId
+        }),
+      })
+        .then((response) => {
+          return response.json();
+        })        
+        .catch((error) => {
+          console.log(error);
+        })
+    );
+  }*/
+
   return (
     <Stack.Navigator 
-      initialRouteName="Subscription" 
+      initialRouteName={() => {
+        return "Subscription";
+      }}
       headerMode="screen"
       screenOptions={{
         headerStyle: {
