@@ -4,7 +4,8 @@ import {
   Text, 
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { 
@@ -23,9 +24,34 @@ const SignUp = props => {
   const [errorMessage, setErrorMessage] = useState({});
   const [text, setText] = useState('');
 
+  const alertBox = (userEmail) => {
+    Alert.alert(
+      "Successful!",
+      "User has been successfully created for "+ userEmail + ".",
+      [
+        { text: "OK", onPress: () => navigation.navigate('Login', {email: userEmail}) }
+      ],
+      { cancelable: false }
+    );
+  }
+
+
   handleSignUp = () => {
     // setText(email);
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(() => console.log("login")).catch(error => setErrorMessage({ msg: error.message }));
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        // save on firebase
+        firebase.database().ref('Users/'+res.user.uid).set({
+          email: res.user.email
+        });
+        Util.storeUser(res.user);
+        Util.storeEmail(email);
+
+        alertBox(res.user.email);
+      })
+      .catch(error => setErrorMessage({ msg: error.message }));
   }
 
   return (

@@ -20,6 +20,8 @@ const Login = props => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const route = useRoute();
+  const {userData}= route.params; 
   const [errorMessage, setErrorMessage] = useState(null);
   
   async function handleSignIn() {
@@ -47,6 +49,10 @@ const Login = props => {
         {errorMessage &&
           <Text style={{ color: 'red', fontStyle: 'italic', }}>
             {errorMessage.msg}
+          </Text>}
+        {(userData.email != "undefined") &&
+          <Text style={{ color: 'orange', fontStyle: 'italic', }}>
+            Login using: {userData.email}
           </Text>}
         <Input
           autoCapitalize="none"

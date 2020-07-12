@@ -77,7 +77,6 @@ class Util {
     }
   }
 
-
   async removeItemValue(key) {
     try {
       await AsyncStorage.removeItem(key);
@@ -91,6 +90,10 @@ class Util {
       return false;
     }
   } 
+
+  async checkIfSubscriptionExists() {
+    
+  }
 
   handleCustomerActionRequired({
     subscription,
