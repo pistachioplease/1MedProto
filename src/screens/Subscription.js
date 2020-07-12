@@ -34,7 +34,7 @@ const Subscription = props => {
         }}
       />
       <View style={styles.tabBarContainer}>
-        <TouchableOpacity onPress={() => props.navigation.navigate("Doctors")}>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Tabs")}>
           <Text style={{ color: "white" }}>Exit</Text>
         </TouchableOpacity>
       </View>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabBarContainer: {
-    backgroundColor: "firebrick",
+    backgroundColor: "dimgray",
     height: 56,
     alignItems: "center",
     flexDirection: "row",

@@ -12,6 +12,7 @@ import {
   Text,
   Icon,
 } from 'react-native-elements';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import BottomTabs from './BottomTabs';
 import Doctors from '../screens/Doctors';
 import IndividualDoctor from '../screens/IndividualDoctor';
@@ -29,12 +30,24 @@ const StackNavigator = () => {
     return (
       <View>
         <TouchableOpacity
-            style={{ marginLeft: 10 }}
+            style={{ marginLeft: 10, color: "white" }}
             onPress={() => {
-              navigation.toggleDrawer();
+              navigation.goBack();
             }}
           >
-            <Avatar rounded title="MD" />
+            <MaterialCommunityIcons name="chevron-left" size={32} color="white" />
+          </TouchableOpacity>
+      </View>
+    )
+  };
+
+  function SubscriptionButton() {
+    return (
+      <View>
+        <TouchableOpacity
+            style={{ marginRight: 10, color: "white" }}
+          >
+             <MaterialCommunityIcons name="star-circle" size={26} color="white" />
           </TouchableOpacity>
       </View>
     )
@@ -48,11 +61,9 @@ const StackNavigator = () => {
         headerStyle: {
           backgroundColor: 'firebrick',
         },
-        headerTitleStyle: {
-          marginLeft: -10,
-        },
         headerTintColor: '#fff',
         headerLeft: MenuButton,
+        headerRight: SubscriptionButton,
       }}
     >
       <Stack.Screen
@@ -79,7 +90,11 @@ const StackNavigator = () => {
       <Stack.Screen name="AddDoctor" component={AddDoctor} />
       <Stack.Screen name="Chats" component={Chats} />
       <Stack.Screen name="AddSubscription" component={AddSubscription} />
-      <Stack.Screen name="Subscription" component={Subscription} />
+      <Stack.Screen 
+        name="Subscription" 
+        component={Subscription} 
+        options={{ headerTitle: '' }}
+        />
     </Stack.Navigator>
   )
 };

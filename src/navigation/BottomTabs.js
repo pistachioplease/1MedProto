@@ -3,6 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Doctors from '../screens/Doctors';
 import Chats from '../screens/Chats';
+import Settings from '../screens/Settings';
 import Appointments from '../screens/Appointments';
 import AddSubscription from '../screens/AddSubscription';
 import SubscriptionList from '../screens/SubscriptionList';
@@ -13,10 +14,7 @@ export default function BottomTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Doctors"
-      tabBarOptions={{
-        activeTintColor: '#e91e63',
-        style: { backgroundColor: 'dimgray' }
-      }}
+      barStyle={{ backgroundColor: 'mistyrose' }}
     >
       <Tab.Screen
         name="Doctors"
@@ -41,24 +39,13 @@ export default function BottomTabs() {
         }}
       />
       <Tab.Screen
-        name="SubscriptionList"
-        component={SubscriptionList}
+        name="Settings"
+        component={Settings}
         options={{
-          tabBarLabel: 'Premium',
+          tabBarLabel: 'Settings',
           tabBarColor: 'dimgray',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="star-circle" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Chats"
-        component={Chats}
-        options={{
-          tabBarLabel: 'Chat',
-          tabBarColor: 'dimgray',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="chat" color={color} size={26} />
+            <MaterialCommunityIcons name="settings" color={color} size={26} />
           ),
         }}
       />
