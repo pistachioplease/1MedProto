@@ -5,6 +5,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
   Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -21,35 +22,26 @@ const SignUp = props => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState({});
   const [text, setText] = useState('');
 
-  const alertBox = (userEmail) => {
-    Alert.alert(
-      "Successful!",
-      "User has been successfully created for "+ userEmail + ".",
-      [
-        { text: "OK", onPress: () => navigation.navigate('Login', {email: userEmail}) }
-      ],
-      { cancelable: false }
-    );
-  }
-
-
   handleSignUp = () => {
-    // setText(email);
+    setIsLoading(true);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         // save on firebase
-        firebase.database().ref('Users/'+res.user.uid).set({
-          email: res.user.email
+        let user = firebase.auth().currentUser;
+        console.log(user.email, user.uid);
+        firebase.database().ref('Users/'+user.uid).set({
+          email: user.email
         });
-        Util.storeUser(res.user);
+        Util.storeUser(user);
         Util.storeEmail(email);
 
-        alertBox(res.user.email);
+        setIsLoading(false);
       })
       .catch(error => setErrorMessage({ msg: error.message }));
   }
@@ -59,6 +51,7 @@ const SignUp = props => {
      <View style={styles.logocontainer}>
         <Image source={require('./../../assets/logo.png')} style={styles.logo} />
       </View>
+      <ActivityIndicator animating={isLoading} size="large" color="firebrick" />
       <View style={[styles.formcontainer]}>
         {errorMessage &&
           <Text style={{ color: 'red', fontStyle: 'italic', }}>
@@ -75,13 +68,22 @@ const SignUp = props => {
           placeholder="Password"
           autoCapitalize="none"
           onChangeText={(value) => setPassword(value)}
-        />
-        <Button title="SIGN UP" onPress={handleSignUp} />
+        />        
+        <Button 
+          icon={
+            <Icon
+              name="sign-in"
+              size={20}
+              color='white'
+            />
+          }
+          title=" SIGN UP" 
+          onPress={handleSignUp} />
         <TouchableOpacity        
           onPress={() => navigation.navigate('Login')}
         >
           <Text style={styles.graytext}>Already have an account? Login</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>        
       </View>
     </SafeAreaView>
   );
@@ -99,10 +101,11 @@ const styles = StyleSheet.create({
   logocontainer: {
     flex: 1,
     width: '60%',
+    alignItems: 'center'
   },
   logo: {
     flex: 1,
-    width: null,
+    width: 100,
     height: null,
     resizeMode: 'contain'
   },

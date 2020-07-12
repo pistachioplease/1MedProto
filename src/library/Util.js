@@ -91,10 +91,6 @@ class Util {
     }
   } 
 
-  async checkIfSubscriptionExists() {
-    
-  }
-
   handleCustomerActionRequired({
     subscription,
     invoice,

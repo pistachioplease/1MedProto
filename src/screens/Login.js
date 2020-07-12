@@ -4,8 +4,9 @@ import {
   Text, 
   View,
   Image,
+  ActivityIndicator
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { 
   Button,
   Input,
@@ -20,22 +21,20 @@ const Login = props => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const route = useRoute();
-  const {userData}= route.params; 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState(null);
-  
+
   async function handleSignIn() {
+    setIsLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(res => {
         // console.log(res.user);
-        // save on firebase
-        firebase.database().ref('Users/'+res.user.uid).set({
-          email: res.user.email
-        });
         Util.storeUser(res.user);
         Util.storeEmail(email);
+        setIsLoading(false);
       })
       .catch(error => setErrorMessage({ msg: error.message }))
   }
@@ -45,14 +44,11 @@ const Login = props => {
       <View style={styles.logocontainer}>
         <Image source={require('./../../assets/logo.png')} style={styles.logo} />
       </View>
+      <ActivityIndicator animating={isLoading} size="large" color="firebrick" />
       <View style={[styles.formcontainer]}>
         {errorMessage &&
           <Text style={{ color: 'red', fontStyle: 'italic', }}>
             {errorMessage.msg}
-          </Text>}
-        {(userData.email != "undefined") &&
-          <Text style={{ color: 'orange', fontStyle: 'italic', }}>
-            Login using: {userData.email}
           </Text>}
         <Input
           autoCapitalize="none"
@@ -107,10 +103,11 @@ const styles = StyleSheet.create({
   logocontainer: {
     flex: 1,
     width: '60%',
+    alignItems: 'center'
   },
   logo: {
     flex: 1,
-    width: null,
+    width: 100,
     height: null,
     resizeMode: 'contain'
   },
