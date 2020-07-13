@@ -89,9 +89,7 @@ const StackNavigator = () => {
 
   return (
     <Stack.Navigator 
-      initialRouteName={() => {
-        return "Subscription";
-      }}
+      initialRouteName="Subscription"
       headerMode="screen"
       screenOptions={{
         headerStyle: {
@@ -117,7 +115,7 @@ const StackNavigator = () => {
       <Stack.Screen 
         name="Doctors" 
         component={Doctors} 
-        options={{ headerTitle: 'Doctors Available' }}
+        options={{ headerTitle: 'Doctors Available', headerLeft: null }}
       />
       <Stack.Screen 
         name="IndividualDoctor" 
@@ -129,7 +127,10 @@ const StackNavigator = () => {
       <Stack.Screen 
         name="Subscription" 
         component={Subscription} 
-        options={{ headerTitle: '' }}
+        options={{
+          headerShown: false,
+          header: null,
+        }}
         />
     </Stack.Navigator>
   )

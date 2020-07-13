@@ -31,11 +31,6 @@ const Doctors = props => {
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
 
-  function handleSignOut() {
-    firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
-  };
-  //handleSignOut();
-
   async function getDoctors() {
     try {
       let doctorsFromAS = await AsyncStorage.getItem('doctors'); 

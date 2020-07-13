@@ -89,7 +89,18 @@ class Util {
     catch(exception) {
       return false;
     }
-  } 
+  }
+
+  handleSignOut() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.removeItemValue("userData");
+        console.log("logout");
+      })
+      .catch(error => console.log(error));
+  };
 
   handleCustomerActionRequired({
     subscription,

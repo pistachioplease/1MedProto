@@ -44,25 +44,35 @@ const Settings = props => {
     },
     {
       name: 'Logout',
-      icon: 'sign-out'
+      icon: 'sign-out',
+      onpress: () => Util.handleSignOut()
     },
   ]
 
+  function signOut() {
+     Util.handleSignOut();
+  }
+
+  const keyExtractor = (item, index) => index.toString();
+
+  const renderItem = ({item}) => (
+    <ListItem
+      title={item.name}
+      leftIcon={{ name: item.icon, type: 'font-awesome', color: 'mistyrose' }}
+      onPress={item.onpress}
+      bottomDivider
+      chevron
+    />
+  );
 
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Email: {user.email}</Text>
       <View style={styles.listcontainer}>
         <FlatList
+          keyExtractor={keyExtractor}
           data={list}
-          renderItem={({item}) => (
-            <ListItem
-              title={item.name}
-              leftIcon={{ name: item.icon, type: 'font-awesome', color: 'mistyrose' }}
-              bottomDivider
-              chevron
-            />
-          )}
+          renderItem={renderItem}
           />
       </View>
     </View>
