@@ -17,6 +17,7 @@ import {
 import * as firebase from 'firebase';
 import { AuthContext } from '../navigation/AuthContext';
 import { Linking } from 'expo';
+import OverlaySubscription from '../screens/OverlaySubscription';
 
 const Appointments = props => {
   const user = useContext(AuthContext);
@@ -61,6 +62,7 @@ const Appointments = props => {
   //<Anchor style={styles.anchor} href="zoomus://">Launch Zoom</Anchor>
   return (
     <View style={styles.container}>
+      <OverlaySubscription />
       <View style={styles.helpbox}>
         <Icon raised size={11} name='angle-right' type='font-awesome' color='black' /><Text style={styles.helptext}>Tap on listing to launch appointment</Text>
       </View>

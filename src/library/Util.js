@@ -69,6 +69,25 @@ class Util {
     }
   }
 
+  async storeSubscription(subscriptionInfo) {
+    try {
+      await AsyncStorage.setItem("subscription", JSON.stringify(subscriptionInfo));
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+  async getSubscription() {
+    try {
+      let subscriptionInfo = await AsyncStorage.getItem("subscription");
+      let data = JSON.parse(subscriptionInfo);
+      // console.log(data);
+
+      return data;
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
   async storeDoctors(doctors) {
     try {
       await AsyncStorage.setItem("doctors", JSON.stringify(doctors));
@@ -101,6 +120,26 @@ class Util {
       })
       .catch(error => console.log(error));
   };
+
+  getSubscription(email) {
+    return (
+      fetch('https://app.1med.ca/subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email
+        }),
+      })
+        .then((response) => {
+          return response;
+        })        
+        .catch((error) => {
+          console.log(error);
+        })
+    );
+  }
 
   handleCustomerActionRequired({
     subscription,

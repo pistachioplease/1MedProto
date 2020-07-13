@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   FlatList,
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { 
@@ -15,12 +15,14 @@ import {
   Button,
   Input,
   Avatar,
-  ListItem
+  ListItem,
+  Overlay
 } from 'react-native-elements';
 import * as firebase from 'firebase';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Util from '../library/Util';
 import { AuthContext } from '../navigation/AuthContext';
+import OverlaySubscription from '../screens/OverlaySubscription';
 
 const Doctors = props => {
   const user = useContext(AuthContext); 
@@ -30,6 +32,7 @@ const Doctors = props => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [debugText, setDebugText] = useState([]);
+  const [modalVisible, setModalVisible] = useState(true);
 
   async function getDoctors() {
     try {
@@ -87,6 +90,7 @@ const Doctors = props => {
 
   return (
     <View style={styles.container}>
+      <OverlaySubscription />
       <Text style={styles.welcomeText}>User ID: {user.email}</Text>
       <View style={styles.listcontainer}>
         <FlatList

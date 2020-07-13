@@ -6,8 +6,6 @@ import { AuthContext } from './AuthContext';
 import * as firebase from 'firebase';
 import Firebase from '../library/Firebase';
 
-// firebase.auth().signOut().then(() => console.log("logout")).catch(error => console.log(error));
-
 const AuthNavigator = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);  
@@ -21,6 +19,7 @@ const AuthNavigator = () => {
 
   useEffect(() => {
     const authSubscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    // console.log("get subscription status");
 
     // unsubscribe on unmount
     return authSubscriber;

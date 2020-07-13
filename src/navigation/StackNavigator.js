@@ -1,7 +1,6 @@
-import * as React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useContext, useEffect } from 'react';
+import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { 
   StyleSheet,
   View,
@@ -20,13 +19,41 @@ import AddDoctor from '../screens/AddDoctor';
 import Chats from '../screens/Chats';
 import AddSubscription from '../screens/AddSubscription';
 import Subscription from '../screens/Subscription';
+import { AuthContext } from '../navigation/AuthContext';
+import Util from '../library/Util';
 
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
   const navigation = useNavigation();
-  
-  function MenuButton() {
+  const route = useRoute();
+  const [subscriptionState, setSubscriptionState] = useState("inactive");
+  const user = useContext(AuthContext); 
+
+  // fetch subscription info from firebase  
+  useEffect(() => {
+    fetch('https://app.1med.ca/subscriptions', {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: user.email
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        (result == "active") ? setSubscriptionState("active") :setSubscriptionState("inactive");
+        console.log(result);
+      })      
+      .catch((error) => {
+        console.log(error);
+      })
+  }, []);
+
+  function BackButton() {
     return (
       <View>
         <TouchableOpacity
@@ -38,84 +65,37 @@ const StackNavigator = () => {
             <MaterialCommunityIcons name="chevron-left" size={32} color="white" />
           </TouchableOpacity>
       </View>
-    )
+    )      
   };
-
-  function SubscriptionButton() {
-    return (
-      <View>
-        <TouchableOpacity
-            style={{ marginRight: 10, color: "white" }}
-          >
-             <MaterialCommunityIcons name="star-circle" size={26} color="white" />
-          </TouchableOpacity>
-      </View>
-    )
-  };
-
-  /*const subscribeUser = (creditCardInput, email, uid, planId) => {
-    return new Promise((resolve, reject) => {
-      // console.log('Credit card token\n', creditCardToken);
-      // create customer
-      // console.log(email);
-      let customer = Util.createCustomer(creditCardInput, email, uid, planId);
-      setTimeout(() => {
-        if (customer != null)
-            resolve();
-        else
-            reject();
-      }, 1000)
-    });
-  };
-  async function getSubscription() {
-    return (
-      fetch('http://app.1med.ca/subscriptions', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          customerId: customerId
-        }),
-      })
-        .then((response) => {
-          return response.json();
-        })        
-        .catch((error) => {
-          console.log(error);
-        })
-    );
-  }*/
 
   return (
     <Stack.Navigator 
-      initialRouteName="Subscription"
+      initialRouteName= {() => { return subscriptionState == "active" ? "Tabs" : "Subscription" }}
       headerMode="screen"
       screenOptions={{
         headerStyle: {
           backgroundColor: 'firebrick',
         },
         headerTintColor: '#fff',
-        headerLeft: MenuButton,
-        headerRight: SubscriptionButton,
+        headerTitleAlign: 'center',
+        headerLeft: BackButton,
       }}
     >
       <Stack.Screen
         name="Tabs"
         component={BottomTabs}
         options={({ route }) => {
-          console.log('!@# options', { route });
-          const routeName = route.state
-            ? '' 
-            : 'Doctors Available';
+          // console.log('!@# options', { route });          
+          const routeName = route.state ? route.state.routeNames[route.state.index] : route.params?.screen || 'Doctors';
           // route.state.routes[route.state.index].name
+
           return { headerTitle: routeName };
         }}
       />
       <Stack.Screen 
         name="Doctors" 
         component={Doctors} 
-        options={{ headerTitle: 'Doctors Available', headerLeft: null }}
+        options={{ title: 'Doctors Available', headerLeft: null }}
       />
       <Stack.Screen 
         name="IndividualDoctor" 

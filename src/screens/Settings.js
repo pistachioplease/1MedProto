@@ -49,10 +49,6 @@ const Settings = props => {
     },
   ]
 
-  function signOut() {
-     Util.handleSignOut();
-  }
-
   const keyExtractor = (item, index) => index.toString();
 
   const renderItem = ({item}) => (
