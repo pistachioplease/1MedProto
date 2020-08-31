@@ -204,25 +204,7 @@ const AddDoctor = props => {
         console.log('error ' , error)
     });*/
   }
-      //"phone":"(293)-404-3040","cell":"(280)-310-4657"
-      // "timezone":{
-      //   "offset":"-5:00",
-      //   "description":"Eastern Time (US & Canada), Bogota, Lima"
-      // gs://authflow-b1864.appspot.com/92.jpg
-      // }
-      // {
-      //   email: email,
-      //   name: {
-      //     title: title,
-      //     first: first,
-      //     last: last,
-      //   },
-      //   jobTitle: jobTitle,
-      //   phone: phone,
-      //   cell: cell,
-      //   imageUrl: imageUrl,
-      // }
-
+  
   return (
     <View style={[styles.container]}>
       <Input placeholder='email' onChangeText={ (value) => setEmail(value) } />

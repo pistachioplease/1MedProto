@@ -46,11 +46,6 @@ const Doctors = props => {
 
           snapshot.forEach(function(snap) {
             let newImageUrl = "";
-            // storage.refFromURL(snap.val().imageUrl).getDownloadURL().then(function(url) {
-            //   newImageUrl = url;
-            // }).catch(function(error) {
-            //   // Handle any errors
-            // });
 
             let item = snap.val();
             item.key = snap.key;

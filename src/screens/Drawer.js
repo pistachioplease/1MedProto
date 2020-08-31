@@ -19,13 +19,7 @@ import Util from '../library/Util';
 // const navigation = useNavigation(); // causes invariant hook call warning
 
 const DrawerContent = props => {
-  // const [user, setUser] = useState('');
-           /*<TouchableOpacity        
-              onPress={() => navigation.navigate('AddSubscription')}
-            >
-              <Text>Payment</Text>
-            </TouchableOpacity>*/
-
+  
   function handleSignOut() {
     firebase
       .auth()
@@ -36,9 +30,6 @@ const DrawerContent = props => {
       })
       .catch(error => console.log(error));
   };
-
-  // setUser();
-          // <Text h4>{Util.capitalize(user.name.first) +" "+ Util.capitalize(user.name.last)}</Text>
 
   return (
     <DrawerContentScrollView {...props}>

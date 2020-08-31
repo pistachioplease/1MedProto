@@ -227,7 +227,7 @@ class Util {
     priceId
   ) {
     return (
-      fetch('http://1med.pistachioplease.com/retry-invoice', {
+      fetch('http://app.1med.ca/retry-invoice', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -276,7 +276,7 @@ class Util {
   }
 
   cancelSubscription() {
-    return fetch('http://1med.pistachioplease.com/cancel-subscription', {
+    return fetch('http://app.1med.ca/cancel-subscription', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
